@@ -3,55 +3,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Boost | Followers Service</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <title>Digital Boost 2030 | Evolution</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;800&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    
     <style>
-        :root { --primary: #0061ff; --secondary: #60efff; --dark: #0f172a; }
-        body { font-family: 'Inter', sans-serif; background: var(--dark); color: white; margin: 0; text-align: center; }
-        
-        header { padding: 60px 20px; background: linear-gradient(135deg, var(--primary), var(--secondary)); }
-        h1 { font-size: 2.2rem; margin: 0; text-transform: uppercase; letter-spacing: 2px; }
-        
-        .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 40px 5%; }
-        
-        .card { background: #1e293b; border-radius: 20px; padding: 25px; border: 1px solid #334155; width: 280px; }
-        .icon { font-size: 40px; margin-bottom: 10px; }
-        .price { font-size: 1.8rem; font-weight: bold; color: var(--secondary); margin: 15px 0; }
-        
-        .order-box { background: #1e293b; margin: 20px auto 50px; padding: 30px; border-radius: 20px; max-width: 450px; border: 1px solid var(--primary); }
-        input, select { width: 90%; padding: 12px; margin: 10px 0; border-radius: 10px; border: none; background: #334155; color: white; font-size: 1rem; }
-        .buy-btn { background: var(--secondary); color: var(--dark); border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 95%; font-size: 1.1rem; margin-top: 10px; transition: 0.3s; }
-        .buy-btn:hover { background: #fff; transform: scale(1.02); }
+        :root {
+            --neon-blue: #00f2ff;
+            --neon-purple: #bc13fe;
+            --bg-dark: #050505;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; /* Custom cursor ашиглах тул */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- Custom Cursor Effect --- */
+        #cursor {
+            width: 20px;
+            height: 20px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            box-shadow: 0 0 20px var(--neon-blue), 0 0 60px var(--neon-blue);
+            transition: transform 0.1s ease;
+        }
+
+        /* --- Background Particles --- */
+        .bg-animate {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #111, #000);
+        }
+
+        .orb {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(var(--neon-blue), var(--neon-purple));
+            filter: blur(150px);
+            border-radius: 50%;
+            opacity: 0.15;
+            animation: float 20s infinite alternate;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(100vw, 100vh); }
+        }
+
+        /* --- Header / Hero Section --- */
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            perspective: 1000px;
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(3rem, 10vw, 6rem);
+            background: linear-gradient(to bottom, #fff, #666);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 10px;
+            text-transform: uppercase;
+            animation: titleIn 1.5s ease-out;
+        }
+
+        .hero-sub {
+            font-size: 1.2rem;
+            color: var(--neon-blue);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        /* --- Pricing Cards --- */
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            padding: 100px 10%;
+            position: relative;
+        }
+
+        .cyber-card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: 0.5s;
+        }
+
+        .cyber-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transition: 0.5s;
+        }
+
+        .cyber-card:hover::before { left: 100%; }
+
+        .cyber-card:hover {
+            transform: scale(1.05) rotateX(10deg);
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px var(--neon-blue));
+        }
+
+        .price-tag {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 20px 0;
+            font-family: 'Orbitron';
+        }
+
+        /* --- Futuristic Form --- */
+        .order-container {
+            padding: 100px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .cyber-form {
+            width: 100%;
+            max-width: 600px;
+            background: linear-gradient(145deg, #0a0a0a, #1a1a1a);
+            padding: 50px;
+            border-radius: 40px;
+            border: 1px solid #333;
+            box-shadow: 20px 20px 60px #050505, -5px -5px 20px #1a1a1a;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        input, select {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #333;
+            padding: 15px 5px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-bottom-color: var(--neon-purple);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 20px;
+            background: transparent;
+            border: 2px solid var(--neon-blue);
+            color: var(--neon-blue);
+            font-family: 'Orbitron';
+            font-size: 1rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .submit-btn:hover {
+            background: var(--neon-blue);
+            color: #000;
+            box-shadow: 0 0 40px var(--neon-blue);
+        }
+
+        @keyframes titleIn {
+            from { opacity: 0; transform: translateZ(-500px); }
+            to { opacity: 1; transform: translateZ(0); }
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .cyber-form { padding: 30px; }
+        }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>DIGITAL BOOST</h1>
-    <p>Сошиал хаягаа дараагийн түвшинд гарга</p>
-</header>
-
-<div class="container">
-    <div class="card">
-        <div class="icon">📸</div>
-        <h3>Instagram</h3>
-        <p>1,000 Followers</p>
-        <div class="price">15,000₮</div>
+    <div class="bg-animate">
+        <div class="orb"></div>
+        <div class="orb" style="bottom: 0; right: 0; animation-delay: -5s; background: var(--neon-purple);"></div>
     </div>
 
-    <div class="card">
-        <div class="icon">🎥</div>
-        <h3>TikTok</h3>
-        <p>10,000 Views</p>
-        <div class="price">5,000₮</div>
-    </div>
-</div>
+    <div id="cursor"></div>
 
-<div class="order-box">
-    <h3>Захиалга өгөх</h3>
-    <form action="https://formspree.io/f/xanypnbp" method="POST">
-        <input type="text" name="link" placeholder="Сошиал линк (URL)" required>
-        <select name="service">
+    <header>
+        <p class="hero-sub">Welcome to the Next Era</p>
+        <h1 class="hero-title">DIGITAL<br>BOOST</h1>
+        <p style="margin-top: 20px; opacity: 0.5;">AI-Powered Social Growth Ecosystem</p>
+    </header>
+
+    <section class="services">
+        <div class="cyber-card">
+            <div class="card-icon">💠</div>
+            <h3>INSTAGRAM</h3>
  
-
-
