@@ -1,1 +1,70 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Boost | Followers Service</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #0061ff; --secondary: #60efff; --dark: #0f172a; }
+        body { font-family: 'Inter', sans-serif; background: var(--dark); color: white; margin: 0; text-align: center; }
+        
+        header { padding: 60px 20px; background: linear-gradient(135deg, var(--primary), var(--secondary)); }
+        h1 { font-size: 2.2rem; margin: 0; text-transform: uppercase; letter-spacing: 2px; }
+        
+        .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 40px 5%; }
+        
+        .card { background: #1e293b; border-radius: 20px; padding: 25px; border: 1px solid #334155; width: 280px; }
+        .icon { font-size: 40px; margin-bottom: 10px; }
+        .price { font-size: 1.8rem; font-weight: bold; color: var(--secondary); margin: 15px 0; }
+        
+        .order-box { background: #1e293b; margin: 20px auto 50px; padding: 30px; border-radius: 20px; max-width: 450px; border: 1px solid var(--primary); }
+        input, select { width: 90%; padding: 12px; margin: 10px 0; border-radius: 10px; border: none; background: #334155; color: white; font-size: 1rem; }
+        .buy-btn { background: var(--secondary); color: var(--dark); border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 95%; font-size: 1.1rem; margin-top: 10px; transition: 0.3s; }
+        .buy-btn:hover { background: #fff; transform: scale(1.02); }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>DIGITAL BOOST</h1>
+    <p>Сошиал хаягаа дараагийн түвшинд гарга</p>
+</header>
+
+<div class="container">
+    <div class="card">
+        <div class="icon">📸</div>
+        <h3>Instagram</h3>
+        <p>1,000 Followers</p>
+        <div class="price">15,000₮</div>
+    </div>
+
+    <div class="card">
+        <div class="icon">🎥</div>
+        <h3>TikTok</h3>
+        <p>10,000 Views</p>
+        <div class="price">5,000₮</div>
+    </div>
+</div>
+
+<div class="order-box">
+    <h3>Захиалга өгөх</h3>
+    <form action="https://formspree.io/f/xanypnbp" method="POST">
+        <input type="text" name="link" placeholder="Сошиал линк (URL)" required>
+        <select name="service">
+            <option value="Instagram 1k">Instagram Followers - 15,000₮</option>
+            <option value="TikTok 10k">TikTok Views - 5,000₮</option>
+        </select>
+        <input type="email" name="email" placeholder="Чиний имэйл хаяг" required>
+        <button type="submit" class="buy-btn">Захиалга илгээх</button>
+    </form>
+</div>
+
+<footer>
+    <p style="opacity: 0.5; padding-bottom: 30px;">© 2026 Digital Boost Services</p>
+</footer>
+
+</body>
+</html>
+
 
