@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Boost 2030 | Evolution</title>
+    <title>Digital Boost 2030 | Ultimate Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;800&family=Orbitron:wght@700&display=swap" rel="stylesheet">
     
     <style>
@@ -15,270 +15,139 @@
             --glass-border: rgba(255, 255, 255, 0.1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            cursor: none; /* Custom cursor ашиглах тул */
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-dark);
             color: #fff;
             overflow-x: hidden;
-            line-height: 1.6;
+            scroll-behavior: smooth;
         }
 
-        /* --- Custom Cursor Effect --- */
-        #cursor {
-            width: 20px;
-            height: 20px;
-            background: var(--neon-blue);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            box-shadow: 0 0 20px var(--neon-blue), 0 0 60px var(--neon-blue);
-            transition: transform 0.1s ease;
-        }
-
-        /* --- Background Particles --- */
+        /* Арын дэвсгэрийн эффект */
         .bg-animate {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
             background: radial-gradient(circle at 50% 50%, #111, #000);
         }
-
         .orb {
-            position: absolute;
-            width: 400px;
-            height: 400px;
+            position: absolute; width: 400px; height: 400px;
             background: linear-gradient(var(--neon-blue), var(--neon-purple));
-            filter: blur(150px);
-            border-radius: 50%;
-            opacity: 0.15;
+            filter: blur(150px); border-radius: 50%; opacity: 0.1;
             animation: float 20s infinite alternate;
         }
+        @keyframes float { from { transform: translate(0, 0); } to { transform: translate(100vw, 100vh); } }
 
-        @keyframes float {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(100vw, 100vh); }
-        }
-
-        /* --- Header / Hero Section --- */
         header {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            perspective: 1000px;
+            height: 60vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
         }
 
         .hero-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(3rem, 10vw, 6rem);
+            font-family: 'Orbitron', sans-serif; font-size: clamp(2.5rem, 8vw, 5rem);
             background: linear-gradient(to bottom, #fff, #666);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 10px;
-            text-transform: uppercase;
-            animation: titleIn 1.5s ease-out;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            letter-spacing: 10px; text-transform: uppercase;
         }
 
-        .hero-sub {
-            font-size: 1.2rem;
-            color: var(--neon-blue);
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            margin-bottom: 20px;
-            opacity: 0.8;
-        }
-
-        /* --- Pricing Cards --- */
+        /* Үйлчилгээний картууд */
         .services {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 40px;
-            padding: 100px 10%;
-            position: relative;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px; padding: 50px 10%;
         }
-
         .cyber-card {
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border);
-            border-radius: 30px;
-            padding: 40px;
-            position: relative;
-            overflow: hidden;
-            transition: 0.5s;
+            background: var(--glass); backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border); border-radius: 25px;
+            padding: 30px; text-align: center; transition: 0.4s;
         }
+        .cyber-card:hover { transform: translateY(-10px); border-color: var(--neon-blue); box-shadow: 0 0 20px rgba(0, 242, 255, 0.2); }
+        .price-tag { font-family: 'Orbitron'; font-size: 1.8rem; color: var(--neon-blue); margin: 15px 0; }
 
-        .cyber-card::before {
-            content: "";
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-            transition: 0.5s;
-        }
-
-        .cyber-card:hover::before { left: 100%; }
-
-        .cyber-card:hover {
-            transform: scale(1.05) rotateX(10deg);
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
-        }
-
-        .card-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 0 10px var(--neon-blue));
-        }
-
-        .price-tag {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin: 20px 0;
-            font-family: 'Orbitron';
-        }
-
-        /* --- Futuristic Form --- */
-        .order-container {
-            padding: 100px 20px;
-            display: flex;
-            justify-content: center;
-        }
-
+        /* Захиалгын форм */
+        .order-container { padding: 50px 20px; display: flex; flex-direction: column; align-items: center; }
         .cyber-form {
-            width: 100%;
-            max-width: 600px;
-            background: linear-gradient(145deg, #0a0a0a, #1a1a1a);
-            padding: 50px;
-            border-radius: 40px;
-            border: 1px solid #333;
-            box-shadow: 20px 20px 60px #050505, -5px -5px 20px #1a1a1a;
+            width: 100%; max-width: 550px; background: rgba(15, 23, 42, 0.8);
+            padding: 40px; border-radius: 30px; border: 1px solid #333;
         }
-
-        .input-group {
-            position: relative;
-            margin-bottom: 30px;
-        }
-
         input, select {
-            width: 100%;
-            background: transparent;
-            border: none;
-            border-bottom: 2px solid #333;
-            padding: 15px 5px;
-            color: #fff;
-            font-size: 1rem;
-            outline: none;
-            transition: 0.3s;
+            width: 100%; background: rgba(255,255,255,0.05); border: 1px solid #444;
+            padding: 15px; color: #fff; border-radius: 12px; margin-bottom: 20px; outline: none;
+        }
+        input:focus { border-color: var(--neon-purple); }
+
+        /* Үнийн дэлгэц */
+        #priceDisplay {
+            margin: 20px 0; padding: 20px; border-radius: 15px;
+            background: rgba(188, 19, 254, 0.1); border: 1px solid var(--neon-purple);
+            text-align: center; display: none;
         }
 
-        input:focus {
-            border-bottom-color: var(--neon-purple);
+        /* Төлбөрийн терминал */
+        #paymentTerminal {
+            display: none; margin-top: 30px; padding: 30px;
+            border: 2px solid var(--neon-blue); border-radius: 25px;
+            background: #000; animation: slideIn 0.5s ease;
         }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         .submit-btn {
-            width: 100%;
-            padding: 20px;
-            background: transparent;
-            border: 2px solid var(--neon-blue);
-            color: var(--neon-blue);
-            font-family: 'Orbitron';
-            font-size: 1rem;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: 0.4s;
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
+            width: 100%; padding: 20px; background: transparent;
+            border: 2px solid var(--neon-blue); color: var(--neon-blue);
+            font-family: 'Orbitron'; cursor: pointer; border-radius: 12px;
+            transition: 0.3s; text-transform: uppercase;
         }
+        .submit-btn:hover { background: var(--neon-blue); color: #000; box-shadow: 0 0 30px var(--neon-blue); }
 
-        .submit-btn:hover {
-            background: var(--neon-blue);
-            color: #000;
-            box-shadow: 0 0 40px var(--neon-blue);
-        }
-
-        @keyframes titleIn {
-            from { opacity: 0; transform: translateZ(-500px); }
-            to { opacity: 1; transform: translateZ(0); }
-        }
-
-        /* Mobile Adjustments */
-        @media (max-width: 768px) {
-            .hero-title { font-size: 2.5rem; }
-            .cyber-form { padding: 30px; }
-        }
+        footer { text-align: center; padding: 40px; opacity: 0.4; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
-    <div class="bg-animate">
-        <div class="orb"></div>
-        <div class="orb" style="bottom: 0; right: 0; animation-delay: -5s; background: var(--neon-purple);"></div>
-    </div>
+<div class="bg-animate"><div class="orb"></div></div>
 
-    <div id="cursor"></div>
+<header>
+    <h1 class="hero-title">DIGITAL BOOST</h1>
+    <p style="color: var(--neon-blue); letter-spacing: 3px;">FUTURE OF SOCIAL MEDIA</p>
+</header>
 
-    <header>
-        <p class="hero-sub">Welcome to the Next Era</p>
-        <h1 class="hero-title">DIGITAL<br>BOOST</h1>
-        <p style="margin-top: 20px; opacity: 0.5;">AI-Powered Social Growth Ecosystem</p>
-    </header>
+<section class="services">
+    <div class="cyber-card"><h3>INSTAGRAM</h3><div class="price-tag">15,000₮</div><p>1,000 Followers</p></div>
+    <div class="cyber-card"><h3>TIKTOK</h3><div class="price-tag">5,000₮</div><p>10,000 Views</p></div>
+    <div class="cyber-card"><h3>FACEBOOK</h3><div class="price-tag">8,000₮</div><p>500 Likes</p></div>
+</section>
 
-    <section class="services">
-        <div class="cyber-card">
-            <div class="card-icon">💠</div>
-            <h3>INSTAGRAM</h3>
-<div class="input-group">
-    <label style="display:block; margin-bottom:10px; color:var(--neon-blue); font-family:'Orbitron'; font-size:0.8rem;">SERVICE PROTOCOL / ҮЙЛЧИЛГЭЭ</label>
-    <select name="service" id="serviceSelect" onchange="updatePrice()">
-        <option value="0" disabled selected>--- Сонгох ---</option>
-        <option value="15000">Instagram: 1,000 Followers - 15,000₮</option>
-        <option value="5000">TikTok: 10,000 Views - 5,000₮</option>
-        <option value="8000">Facebook: 500 Likes - 8,000₮</option>
-        <option value="25000">Premium: Full Boost Pack - 25,000₮</option>
-    </select>
-</div>
-
-<div id="priceDisplay" style="margin: 20px 0; padding: 15px; border: 1px dashed var(--neon-blue); border-radius: 10px; display: none; animation: fadeIn 0.5s;">
-    <span style="font-size: 0.9rem; opacity: 0.7;">TOTAL COST / НИЙТ ҮНЭ:</span>
-    <div id="totalAmount" style="font-family:'Orbitron'; font-size: 2rem; color: var(--neon-purple); text-shadow: 0 0 15px var(--neon-purple);">0₮</div>
-</div>
-<div id="paymentTerminal" style="display: none; margin-top: 30px; padding: 30px; border: 2px solid var(--neon-purple); border-radius: 20px; background: rgba(188, 19, 254, 0.05); backdrop-filter: blur(10px); animation: terminalSlide 0.6s cubic-bezier(0.23, 1, 0.32, 1);">
-    
-    <div style="text-align: center; margin-bottom: 20px;">
-        <span style="font-family: 'Orbitron'; color: var(--neon-purple); letter-spacing: 3px;">PAYMENT REQUIRED</span>
-        <div style="height: 2px; background: linear-gradient(90deg, transparent, var(--neon-purple), transparent); margin-top: 10px;"></div>
-    </div>
-
-    <div style="display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center; gap: 20px;">
-        <div style="width: 150px; height: 150px; background: white; padding: 10px; border-radius: 15px; box-shadow: 0 0 20px rgba(188, 19, 254, 0.4);">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=KHANBANK_ACCOUNT_HERE" alt="QR Code" style="width: 100%;">
-        </div>
-
-        <div style="text-align: left; flex: 1; min-width: 200px;">
-            <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 5px;">ACCOUNT NAME:</p>
-            <p style="font-weight: bold; margin-bottom: 15px;">DIGITAL BOOST / Б.БАТ</p>
+<section class="order-container">
+    <div class="cyber-form">
+        <h2 style="text-align: center; font-family: 'Orbitron'; margin-bottom: 30px;">ORDER TERMINAL</h2>
+        
+        <form id="orderForm" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+            <input type="url" name="link" id="userLink" placeholder="Сошиал линк (URL)" required>
             
-            <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 5px;">ACCOUNT NUMBER:</p>
-            <p style="font-family: 'Orbitron'; font-size: 1.2rem; color: var(--neon-blue);">5000XXXXXX (Хаан Банк)</p>
-            
-            <p style="font-size: 0.7rem; color: #f87171; margin-top: 15px;">* Гүйлгээний утга дээр Имэйл хаягаа заавал бичнэ үү!</p>
-        </div>
-    </div>
+            <select name="service" id="serviceSelect" onchange="updatePrice()" required>
+                <option value="" disabled selected>Үйлчилгээ сонгох</option>
+                <option value="15000">Instagram 1,000 Followers - 15,000₮</option>
+                <option value="5000">TikTok 10,000 Views - 5,000₮</option>
+                <option value="8000">Facebook 500 Likes - 8,000₮</option>
+            </select>
 
-    <button onclick="confirmFinal()" class="submit-btn" style="margin-top: 25px; border-color: var(--neon-purple); color: var(--neon-purple);">
-        I HAVE PAID / ТӨЛБӨР ТӨЛСӨН
-    </button>
-</div>
+            <input type="email" name="email" id="userEmail" placeholder="Холбоо барих имэйл" required>
+
+            <div id="priceDisplay">
+                <p style="font-size: 0.8rem; opacity: 0.7;">TOTAL COST:</p>
+                <div id="totalAmount" style="font-family: 'Orbitron'; font-size: 2rem; color: var(--neon-purple);">0₮</div>
+            </div>
+
+            <button type="submit" class="submit-btn">Execute Order</button>
+        </form>
+
+        <div id="paymentTerminal">
+            <h3 style="color: var(--neon-blue); text-align: center; margin-bottom: 20px;">PAYMENT DETAILS</h3>
+            <div style="background: white; padding: 10px; width: 140px; margin: 0 auto 20px; border-radius: 10px;">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=5000XXXXXX" style="width: 100%;">
+            </div>
+            <p style="font-size: 0.9rem; margin-bottom: 10px;">БАНК: <b>ХААН БАНК</b></p>
+            <p style="font-size: 0.9rem; margin-bottom: 10px;">ДАНС: <b style="color: var(--neon-blue);">5000XXXXXX</b></p>
+            <p style="font-size: 0.9rem; margin-bottom: 20px;">НЭР: <b>Б.БАТ (DIGITAL)</b></p>
+            <p st
  
