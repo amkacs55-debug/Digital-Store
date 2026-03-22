@@ -190,4 +190,47 @@
 
 </body>
 </html>
+<script>
+    // Үнэ шинэчлэх функц
+    function updatePrice() {
+        const select = document.getElementById('serviceSelect');
+        const price = select.value;
+        document.getElementById('priceDisplay').style.display = 'block';
+        document.getElementById('totalAmount').innerText = Number(price).toLocaleString() + '₮';
+    }
+
+    // Форм илгээх үед ажиллах үндсэн хэсэг
+    document.getElementById('orderForm').onsubmit = function(e) {
+        // Хэрэглэгчийн бөглөсөн мэдээллүүдийг цуглуулах
+        const link = document.getElementById('userLink').value;
+        const service = document.getElementById('serviceSelect').options[document.getElementById('serviceSelect').selectedIndex].text;
+        const email = document.getElementById('userEmail').value;
+
+        // 1. Телеграм руу шууд мэдэгдэл илгээх
+        sendToTelegram(link, service, email);
+
+        // 2. Төлбөрийн хэсгийг (MonPay) дэлгэцэнд гаргаж ирэх
+        document.getElementById('paymentTerminal').style.display = 'block';
+        document.getElementById('paymentTerminal').scrollIntoView({ behavior: 'smooth' });
+    };
+
+    // Телеграм руу мэдээлэл дамжуулах функц
+    function sendToTelegram(link, service, email) {
+        // Чиний өгсөн Бот Токен болон Chat ID
+        const token = "8686350962:AAE-qTC97YHESmKDHxxq3Zx7pCGgnNxhUVQ"; 
+        const chatId = "7069407872"; 
+        
+        const text = `🚀 ШИНЭ ЗАХИАЛГА!\n\n🔗 Холбоос: ${link}\n🛠 Үйлчилгээ: ${service}\n📧 Имэйл: ${email}\n💰 Төлөв: MonPay хүлээгдэж буй`;
+        
+        fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`)
+        .then(res => console.log("Telegram мэдэгдэл амжилттай илгээгдлээ"))
+        .catch(err => console.error("Telegram алдаа гарлаа:", err));
+    }
+
+    // Төлбөр төлсөн товч дарахад ажиллах
+    function confirmPayment() {
+        alert("Захиалгыг хүлээн авлаа. Бид MonPay гүйлгээг шалгаад 5-15 минутын дотор үйлчилгээг идэвхжүүлэх болно. Баярлалаа!");
+        window.location.reload(); // Хуудсыг дахин ачаалах
+    }
+</script>
 
