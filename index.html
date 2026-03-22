@@ -254,4 +254,31 @@
     <span style="font-size: 0.9rem; opacity: 0.7;">TOTAL COST / НИЙТ ҮНЭ:</span>
     <div id="totalAmount" style="font-family:'Orbitron'; font-size: 2rem; color: var(--neon-purple); text-shadow: 0 0 15px var(--neon-purple);">0₮</div>
 </div>
+<div id="paymentTerminal" style="display: none; margin-top: 30px; padding: 30px; border: 2px solid var(--neon-purple); border-radius: 20px; background: rgba(188, 19, 254, 0.05); backdrop-filter: blur(10px); animation: terminalSlide 0.6s cubic-bezier(0.23, 1, 0.32, 1);">
+    
+    <div style="text-align: center; margin-bottom: 20px;">
+        <span style="font-family: 'Orbitron'; color: var(--neon-purple); letter-spacing: 3px;">PAYMENT REQUIRED</span>
+        <div style="height: 2px; background: linear-gradient(90deg, transparent, var(--neon-purple), transparent); margin-top: 10px;"></div>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center; gap: 20px;">
+        <div style="width: 150px; height: 150px; background: white; padding: 10px; border-radius: 15px; box-shadow: 0 0 20px rgba(188, 19, 254, 0.4);">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=KHANBANK_ACCOUNT_HERE" alt="QR Code" style="width: 100%;">
+        </div>
+
+        <div style="text-align: left; flex: 1; min-width: 200px;">
+            <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 5px;">ACCOUNT NAME:</p>
+            <p style="font-weight: bold; margin-bottom: 15px;">DIGITAL BOOST / Б.БАТ</p>
+            
+            <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 5px;">ACCOUNT NUMBER:</p>
+            <p style="font-family: 'Orbitron'; font-size: 1.2rem; color: var(--neon-blue);">5000XXXXXX (Хаан Банк)</p>
+            
+            <p style="font-size: 0.7rem; color: #f87171; margin-top: 15px;">* Гүйлгээний утга дээр Имэйл хаягаа заавал бичнэ үү!</p>
+        </div>
+    </div>
+
+    <button onclick="confirmFinal()" class="submit-btn" style="margin-top: 25px; border-color: var(--neon-purple); color: var(--neon-purple);">
+        I HAVE PAID / ТӨЛБӨР ТӨЛСӨН
+    </button>
+</div>
  
