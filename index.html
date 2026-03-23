@@ -1,1 +1,174 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Store | Smart SMM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon: #00f2ff;
+            --purple: #bc13fe;
+            --bg: #050505;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: white; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px 20px 140px 20px; }
+        .container { width: 100%; max-width: 480px; }
+
+        h1 { font-family: 'Orbitron'; text-align: center; font-size: 1.8rem; background: linear-gradient(to right, var(--neon), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; margin-bottom: 25px; }
+
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 25px; padding: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-size: 0.7rem; margin-bottom: 8px; color: var(--neon); font-weight: bold; text-transform: uppercase; }
+        
+        input, select { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #222; background: rgba(0,0,0,0.6); color: white; outline: none; font-size: 0.9rem; transition: 0.3s; }
+        input:focus { border-color: var(--neon); box-shadow: 0 0 10px rgba(0, 242, 255, 0.2); }
+
+        .price-box { background: rgba(0, 242, 255, 0.05); padding: 20px; border-radius: 15px; border: 1px dashed var(--neon); margin: 20px 0; text-align: center; }
+        .total-price { font-family: 'Orbitron'; font-size: 1.8rem; color: var(--neon); display: block; }
+        .bonus-text { font-size: 0.75rem; color: #ffbc00; font-weight: bold; margin-top: 5px; display: block; }
+
+        .btn { width: 100%; padding: 16px; border-radius: 14px; border: none; background: linear-gradient(45deg, var(--neon), var(--purple)); color: white; font-family: 'Orbitron'; font-weight: bold; cursor: pointer; font-size: 0.9rem; text-transform: uppercase; transition: 0.3s; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        #paymentArea { display: none; text-align: center; animation: fadeIn 0.5s ease; }
+        .qr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
+        .qr-item { background: white; padding: 8px; border-radius: 12px; color: black; font-size: 10px; font-weight: bold; }
+        .qr-item img { width: 100%; border-radius: 8px; margin-bottom: 5px; }
+
+        .fixed-footer { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 450px; background: rgba(10, 10, 10, 0.9); border: 1px solid var(--purple); border-radius: 20px; padding: 15px; text-align: center; }
+        .call-btn { color: white; text-decoration: none; font-weight: bold; font-family: 'Orbitron'; font-size: 1.2rem; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>DIGITAL STORE</h1>
+    
+    <div class="glass-card">
+        <div id="formSection">
+            <div class="input-group">
+                <label>ХОЛБООС (LINK)</label>
+                <input type="url" id="link" placeholder="Хаяг эсвэл постоо оруулна уу" required>
+            </div>
+
+            <div class="input-group">
+                <label>ҮЙЛЧИЛГЭЭ</label>
+                <select id="platform" onchange="calculate()">
+                    <option value="fb_fol">Facebook Followers (1ш = 12₮)</option>
+                    <option value="fb_reac">Facebook Reactions (1ш = 5₮)</option>
+                    <option value="ig_fol">Instagram Followers (1ш = 10₮)</option>
+                    <option value="tk_fol">TikTok Followers (1ш = 15₮)</option>
+                    <option value="tk_view">TikTok Views (1000ш = 400₮)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>АВАХ ТОО (Min: 100)</label>
+                <input type="number" id="quantity" value="1000" min="100" oninput="calculate()">
+            </div>
+
+            <div class="price-box">
+                <span style="font-size: 0.7rem; color: #ccc;">НИЙТ ТӨЛБӨР:</span>
+                <span id="totalPriceDisplay" class="total-price">12,000₮</span>
+                <span id="bonusDisplay" class="bonus-text">+100 бонус followers</span>
+            </div>
+
+            <div class="input-group">
+                <label>ХОЛБОО БАРИХ ИМЭЙЛ</label>
+                <input type="email" id="email" placeholder="example@mail.com" required>
+            </div>
+            
+            <button onclick="handleOrder()" id="orderBtn" class="btn">ЗАХИАЛГА ӨГӨХ</button>
+        </div>
+
+        <div id="paymentArea">
+            <h3 style="color:var(--purple); font-family:'Orbitron'; font-size:0.9rem; margin-bottom:15px;">ТӨЛБӨР ТӨЛӨХ</h3>
+            <div class="qr-grid">
+                <div class="qr-item"><img src="orca-image-2014133490.jpeg.jpeg" alt="MonPay">MONPAY</div>
+                <div class="qr-item"><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=monpay://transfer?phone=99106925689" alt="QPay">QPAY</div>
+            </div>
+            <div style="font-size: 0.8rem; line-height: 1.6;">
+                <p>Хаан банк: <strong>85330511</strong></p>
+                <p>Хүлээн авагч: <strong>Б.ХОС-ЭРДЭНЭ</strong></p>
+            </div>
+            <button onclick="window.location.reload()" class="btn" style="background:#111; margin-top:15px;">БУЦАХ</button>
+        </div>
+    </div>
+</div>
+
+<div class="fixed-footer">
+    <a href="tel:89773973" class="call-btn">📞 89773973</a>
+</div>
+
+<script>
+    const rates = { fb_fol: 12, fb_reac: 5, ig_fol: 10, tk_fol: 15, tk_view: 0.4 };
+
+    function calculate() {
+        const platform = document.getElementById('platform').value;
+        const qty = parseInt(document.getElementById('quantity').value) || 0;
+        
+        // Хамгийн багадаа 100ш
+        if(qty < 100) {
+            document.getElementById('totalPriceDisplay').innerText = "Min 100ш";
+            document.getElementById('bonusDisplay').innerText = "";
+            return 0;
+        }
+
+        const price = Math.round(qty * rates[platform]);
+        let bonusPercent = 0;
+
+        if (qty >= 10000) bonusPercent = 0.12; // 10k+ -> 12%
+        else if (qty >= 1000) bonusPercent = 0.10; // 1k+ -> 10%
+        else if (qty >= 100) bonusPercent = 0.05;  // 100-999 -> 5%
+
+        const bonusQty = Math.floor(qty * bonusPercent);
+        
+        document.getElementById('totalPriceDisplay').innerText = price.toLocaleString() + "₮";
+        document.getElementById('bonusDisplay').innerText = `+${bonusQty.toLocaleString()} бонус (🎁 ${bonusPercent * 100}%)`;
+        
+        return { price, bonusQty };
+    }
+
+    async function handleOrder() {
+        const link = document.getElementById('link').value;
+        const email = document.getElementById('email').value;
+        const qty = document.getElementById('quantity').value;
+        const platformSelect = document.getElementById('platform');
+        const serviceName = platformSelect.options[platformSelect.selectedIndex].text;
+        const data = calculate();
+
+        if (!link || !email || qty < 100) { alert("Мэдээллээ бүрэн оруулна уу!"); return; }
+
+        const btn = document.getElementById('orderBtn');
+        btn.innerText = "ИЛГЭЭЖ БАЙНА...";
+        btn.disabled = true;
+
+        const text = `🚀 ШИНЭ ЗАХИАЛГА\n\n🔗 Линк: ${link}\n📧 Email: ${email}\n🛠 Үйлчилгээ: ${serviceName}\n🔢 Тоо: ${qty}ш\n🎁 Бонус: ${data.bonusQty}ш\n💰 Үнэ: ${data.price}₮`;
+
+        try {
+            await fetch(`https://api.telegram.org/bot8686350962:AAE-qTC97YHESmKDHxxq3Zx7pCGgnNxhUVQ/sendMessage`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ chat_id: "7069407872", text: text })
+            });
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('paymentArea').style.display = 'block';
+        } catch (e) {
+            alert("Алдаа гарлаа!");
+        } finally {
+            btn.innerText = "ЗАХИАЛГА ӨГӨХ";
+            btn.disabled = false;
+        }
+    }
+    
+    // Эхний ачаалалтаар бодох
+    calculate();
+</script>
+</body>
+</html>
 
