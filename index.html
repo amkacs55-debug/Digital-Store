@@ -152,4 +152,50 @@
 </script>
 </body>
 </html>
+</div>
+</div>
+
+<script>
+    function handleOrder() {
+        const link = document.getElementById('link').value;
+        const email = document.getElementById('email').value;
+        const selectedRadio = document.querySelector('input[name="smm_service"]:checked');
+
+        if (!link || !email || !selectedRadio) {
+            alert("Мэдээллээ бүрэн бөглөнө үү!");
+            return;
+        }
+
+        const serviceName = selectedRadio.getAttribute('data-name');
+        const price = selectedRadio.value;
+
+        const botToken = "8686350962:AAE-qTC97YHESmKDHxxq3Zx7pCGgnNxhUVQ";
+        const chatId = "7069407872"; 
+        const text = `🚀 ШИНЭ ЗАХИАЛГА\n\n🔗 Линк: ${link}\n🛠 Үйлчилгээ: ${serviceName}\n📧 Email: ${email}\n💰 Үнэ: ${price}₮`;
+
+        // Telegram руу илгээх
+        fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                chat_id: chatId,
+                text: text
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log("Telegram амжилттай!");
+                // Захиалга амжилттай болсон тул төлбөрийн хэсгийг харуулна
+                document.getElementById('formSection').style.display = 'none';
+                document.getElementById('paymentArea').style.display = 'block';
+            } else {
+                alert("Telegram-д алдаа гарлаа. Бот эхлүүлсэн эсэхээ шалгана уу.");
+            }
+        })
+        .catch(err => console.error("Алдаа:", err));
+    }
+</script>
+
+</body>
+</html>
 
