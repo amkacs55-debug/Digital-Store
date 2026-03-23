@@ -252,6 +252,25 @@
         finally { btn.innerText = "ЗАХИАЛГА ӨГӨХ"; btn.disabled = false; }
     }
     calculate();
+    async function handleOrder() {
+    // ... өмнөх кодууд ...
+
+    try {
+        await fetch(`https://api.telegram.org/bot8686350962:AAE-qTC97YHESmKDHxxq3Zx7pCGgnNxhUVQ/sendMessage`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ chat_id: "7069407872", text: text })
+        });
+        // Амжилттай болсон ч, алдаа гарсан ч төлбөрийн хэсгийг харуулна
+    } catch (e) {
+        console.log("Telegram error, but showing payment anyway.");
+    } finally {
+        document.getElementById('formSection').style.display = 'none';
+        document.getElementById('paymentArea').style.display = 'block';
+        window.scrollTo(0,0);
+    }
+}
+
 </script>
 </body>
 </html>
