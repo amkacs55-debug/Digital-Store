@@ -1,1 +1,161 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Store | Premium Boost</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon: #00f2ff;
+            --purple: #bc13fe;
+            --bg: #050505;
+            --card-active: rgba(0, 242, 255, 0.08);
+            --card-border-active: rgba(0, 242, 255, 0.4);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: white; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px 20px 140px 20px; }
+        .container { width: 100%; max-width: 500px; }
+
+        h1 { font-family: 'Orbitron'; text-align: center; font-size: 2.2rem; background: linear-gradient(to right, var(--neon), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 3px; margin-bottom: 5px; }
+        .sub-title { text-align: center; font-size: 0.7rem; opacity: 0.5; margin-bottom: 25px; letter-spacing: 1px; }
+
+        .glass-card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 25px; padding: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
+
+        .input-group { margin-bottom: 20px; }
+        label { display: block; font-size: 0.7rem; margin-bottom: 7px; color: var(--neon); font-weight: bold; letter-spacing: 1px; }
+        input { width: 100%; padding: 16px; border-radius: 14px; border: 1px solid #222; background: rgba(0,0,0,0.6); color: white; outline: none; font-size: 0.95rem; transition: 0.3s; }
+        input:focus { border-color: var(--neon); box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); }
+
+        .service-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 25px; }
+        .platform-header { font-family: 'Orbitron'; font-size: 0.9rem; color: rgba(255,255,255,0.7); margin: 15px 0 8px 5px; display: flex; align-items: center; }
+        .platform-header::before { content: ''; display: inline-block; width: 8px; height: 8px; background: var(--purple); border-radius: 50%; margin-right: 10px; filter: drop-shadow(0 0 5px var(--purple)); }
+
+        .service-option input[type="radio"] { display: none; }
+        .service-card { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; cursor: pointer; transition: 0.3s ease; }
+        .service-option input[type="radio"]:checked + .service-card { background: var(--card-active); border-color: var(--card-border-active); transform: scale(1.01); }
+
+        .service-title { font-size: 0.9rem; font-weight: 600; color: #f0f0f0; }
+        .service-title span { font-family: 'Orbitron'; margin-right: 5px; font-size: 0.8rem; }
+        .service-price { font-family: 'Orbitron'; font-size: 0.9rem; color: var(--neon); font-weight: bold; }
+        .hot-tag { font-family: 'Orbitron'; font-size: 0.5rem; color: white; background: linear-gradient(to right, #ff416c, #ff4b2b); padding: 2px 6px; border-radius: 4px; margin-left: 8px; }
+
+        .btn { width: 100%; padding: 18px; margin-top: 10px; border-radius: 16px; border: none; background: linear-gradient(45deg, var(--neon), var(--purple)); color: white; font-family: 'Orbitron'; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 1rem; text-transform: uppercase; }
+
+        #paymentArea { display: none; margin-top: 20px; animation: fadeIn 0.6s ease; }
+        .qr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+        .qr-item { background: white; padding: 10px; border-radius: 15px; text-align: center; }
+        .qr-item img { width: 100%; border-radius: 10px; display: block; }
+        .bank-info { background: rgba(255, 255, 255, 0.05); padding: 18px; border-radius: 20px; text-align: center; font-size: 0.85rem; border: 1px solid rgba(0, 242, 255, 0.1); }
+
+        .fixed-footer { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 480px; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(15px); border: 1px solid var(--purple); border-radius: 25px; padding: 18px; text-align: center; box-shadow: 0 -10px 40px rgba(0,0,0,0.8); z-index: 1000; }
+        .footer-text { font-size: 0.8rem; margin-bottom: 12px; color: #ddd; }
+        .footer-text span { color: var(--neon); font-weight: 800; }
+        .call-btn { display: flex; align-items: center; justify-content: center; gap: 10px; background: linear-gradient(135deg, #9333ea, #4f46e5); color: white; text-decoration: none; padding: 14px; border-radius: 18px; font-weight: 900; font-size: 1.3rem; font-family: 'Orbitron'; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>DIGITAL STORE</h1>
+    <p class="sub-title">PREMIUM BOOST SERVICE</p>
+    <div class="glass-card">
+        <div id="formSection">
+            <div class="input-group">
+                <label>ХОЛБООС (LINK / URL)</label>
+                <input type="url" id="link" placeholder="https://..." required>
+            </div>
+
+            <div class="input-group">
+                <label>ҮЙЛЧИЛГЭЭ СОНГОХ</label>
+                <div class="service-grid">
+                    <div class="platform-header">Facebook</div>
+                    <label class="service-option"><input type="radio" name="smm_service" value="2000" data-name="FB 100 Followers"><div class="service-card"><div class="service-title"><span>100</span> Followers</div><div class="service-price">2,000₮</div></div></label>
+                    <label class="service-option"><input type="radio" name="smm_service" value="6500" data-name="FB 500 Followers"><div class="service-card"><div class="service-title"><span>500</span> Followers</div><div class="service-price">6,500₮</div></div></label>
+                    <label class="service-option"><input type="radio" name="smm_service" value="12000" data-name="FB 1k Followers"><div class="service-card"><div class="service-title"><span>1k</span> Followers</div><div class="service-price">12,000₮</div></div></label>
+
+                    <div class="platform-header">Instagram</div>
+                    <label class="service-option"><input type="radio" name="smm_service" value="1500" data-name="IG 100 Followers"><div class="service-card"><div class="service-title"><span>100</span> Followers</div><div class="service-price">1,500₮</div></div></label>
+                    <label class="service-option"><input type="radio" name="smm_service" value="5500" data-name="IG 500 Followers"><div class="service-card"><div class="service-title"><span>500</span> Followers</div><div class="service-price">5,500₮</div></div></label>
+                    <label class="service-option"><input type="radio" name="smm_service" value="10000" data-name="IG 1k Followers"><div class="service-card"><div class="service-title"><span>1k</span> Followers <span class="hot-tag">HOT</span></div><div class="service-price">10,000₮</div></div></label>
+
+                    <div class="platform-header">TikTok</div>
+                    <label class="service-option"><input type="radio" name="smm_service" value="2500" data-name="TikTok 100 Followers"><div class="service-card"><div class="service-title"><span>100</span> Followers</div><div class="service-price">2,500₮</div></div></label>
+                    <label class="service-option"><input type="radio" name="smm_service" value="8500" data-name="TikTok 500 Followers"><div class="service-card"><div class="service-title"><span>500</span> Followers</div><div class="service-price">8,500₮</div></div></label>
+                    <label class="service-option"><input type="radio" name="smm_service" value="15000" data-name="TikTok 1k Followers"><div class="service-card"><div class="service-title"><span>1k</span> Followers</div><div class="service-price">15,000₮</div></div></label>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>ХОЛБОО БАРИХ ИМЭЙЛ</label>
+                <input type="email" id="email" placeholder="example@mail.com" required>
+            </div>
+            <button onclick="handleOrder()" id="orderBtn" class="btn">ЗАХИАЛГА ӨГӨХ</button>
+        </div>
+
+        <div id="paymentArea">
+            <h3 style="text-align: center; font-size: 0.9rem; color: var(--purple); font-family: 'Orbitron'; margin-bottom: 20px;">ТӨЛБӨР ТӨЛӨХ</h3>
+            <div class="qr-grid">
+                <div class="qr-item"><img src="orca-image-2014133490.jpeg.jpeg" alt="MonPay"><div style="font-size:10px; color:#333; font-weight:bold; margin-top:5px;">MONPAY QR</div></div>
+                <div class="qr-item"><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=monpay://transfer?phone=99106925689" alt="QPay"><div style="font-size:10px; color:#333; font-weight:bold; margin-top:5px;">QPAY / ШУУД</div></div>
+            </div>
+            <div class="bank-info">
+                <p>MonPay: <strong style="color:var(--neon);">99106925689</strong></p>
+                <p>Хаан банк: <strong>85330511</strong></p>
+                <p>Хүлээн авагч: <strong>Б.ХОС-ЭРДЭНЭ</strong></p>
+                <p style="color:#ff4d4d; font-size:0.7rem; margin-top:10px;">* ГҮЙЛГЭЭНИЙ УТГА ДЭЭР ИМЭЙЛЭЭ БИЧНЭ ҮҮ!</p>
+            </div>
+            <button onclick="window.location.reload()" class="btn" style="background:#111; font-size:0.75rem; margin-top:20px;">БУЦАХ</button>
+        </div>
+    </div>
+</div>
+
+<div class="fixed-footer">
+    <p class="footer-text">Төлбөр төлөгдсөнөөс хойш <span>30 минутын</span> дотор бот ороогүй бол холбогдоно уу:</p>
+    <a href="tel:89773973" class="call-btn">📞 89773973</a>
+</div>
+
+<script>
+    async function handleOrder() {
+        const link = document.getElementById('link').value;
+        const email = document.getElementById('email').value;
+        const selectedRadio = document.querySelector('input[name="smm_service"]:checked');
+
+        if (!link || !email || !selectedRadio) { alert("Мэдээллээ бүрэн бөглөнө үү!"); return; }
+
+        const btn = document.getElementById('orderBtn');
+        btn.innerText = "УНШИЖ БАЙНА...";
+        btn.disabled = true;
+
+        const botToken = "8686350962:AAE-qTC97YHESmKDHxxq3Zx7pCGgnNxhUVQ";
+        const chatId = "7069407872";
+        const text = `🚀 ШИНЭ ЗАХИАЛГА\n\n🔗 Линк: ${link}\n📧 Email: ${email}\n🛠 Үйлчилгээ: ${selectedRadio.getAttribute('data-name')}\n💰 Үнэ: ${selectedRadio.value}₮`;
+
+        try {
+            const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ chat_id: chatId, text: text })
+            });
+
+            if (response.ok) {
+                document.getElementById('formSection').style.display = 'none';
+                document.getElementById('paymentArea').style.display = 'block';
+            } else {
+                alert("Telegram ботоо Start хийсэн эсэхээ шалгаарай!");
+                btn.innerText = "ЗАХИАЛГА ӨГӨХ";
+                btn.disabled = false;
+            }
+        } catch (e) {
+            alert("Алдаа гарлаа. Дахин оролдоно уу.");
+            btn.innerText = "ЗАХИАЛГА ӨГӨХ";
+            btn.disabled = false;
+        }
+    }
+</script>
+</body>
+</html>
 
