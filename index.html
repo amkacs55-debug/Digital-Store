@@ -1,1 +1,454 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Store | Official SMM Panel</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --neon-cyan: #00f2ff;
+            --neon-purple: #7000ff;
+            --deep-dark: #050507;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+
+        body {
+            background-color: var(--deep-dark);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(112, 0, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 242, 255, 0.05) 0%, transparent 40%);
+            color: #ffffff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .main-wrapper {
+            max-width: 480px;
+            margin: 40px auto;
+            animation: slideUp 0.8s ease;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 2.2rem;
+            letter-spacing: 6px;
+            background: linear-gradient(135deg, #fff 0%, var(--neon-cyan) 50%, var(--neon-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            filter: drop-shadow(0 0 15px rgba(0, 242, 255, 0.3));
+        }
+
+        .glass-panel {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(25px);
+            border-radius: 35px;
+            padding: 35px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.65rem;
+            font-weight: 800;
+            color: #888;
+            margin-bottom: 12px;
+            margin-left: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .styled-input {
+            width: 100%;
+            padding: 18px 25px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            color: #fff;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .styled-input:focus {
+            border-color: var(--neon-cyan);
+            background: rgba(0, 242, 255, 0.03);
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.1);
+        }
+
+        .service-selection {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .service-item {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .service-item input {
+            display: none;
+        }
+
+        .service-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .service-item input:checked + .service-box {
+            background: linear-gradient(90deg, rgba(0, 242, 255, 0.1), transparent);
+            border-color: var(--neon-cyan);
+            transform: translateX(5px);
+        }
+
+        .service-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: block;
+        }
+
+        .service-price {
+            font-size: 0.75rem;
+            color: #888;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .calculator-zone {
+            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
+            border-radius: 28px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .total-amount {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 900;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+
+        .bonus-tag {
+            background: #fff;
+            color: #000;
+            padding: 5px 15px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 900;
+            display: inline-block;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 22px;
+            border-radius: 22px;
+            border: none;
+            background: #fff;
+            color: #000;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        #paymentArea {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .qr-wrapper {
+            background: #fff;
+            padding: 20px;
+            border-radius: 25px;
+            margin-bottom: 25px;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .qr-image {
+            width: 100%;
+            max-width: 250px;
+            border-radius: 15px;
+        }
+
+        .bank-details {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 22px;
+            padding: 25px;
+            text-align: left;
+            border: 1px solid var(--glass-border);
+        }
+
+        .bank-row {
+            margin-bottom: 10px;
+        }
+
+        .bank-label {
+            font-size: 0.65rem;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        .bank-value {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--neon-cyan);
+            display: block;
+        }
+
+        .footer-call {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 440px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 15px;
+            text-align: center;
+            z-index: 100;
+        }
+
+        .call-link {
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <div class="header-section">
+        <div class="logo-text">DIGITAL STORE</div>
+        <div class="sub-logo">PREMIUM SMM SOLUTIONS</div>
+    </div>
+
+    <div class="glass-panel">
+        <div id="formSection">
+            <div class="input-group">
+                <span class="form-label">1. Линк (Link)</span>
+                <input type="url" id="userLink" class="styled-input" placeholder="🔗 Линкээ оруулна уу">
+            </div>
+
+            <span class="form-label">2. Үйлчилгээ сонгох</span>
+            <div class="service-selection">
+                <label class="service-item">
+                    <input type="radio" name="service" value="fb_group" checked onclick="calculatePrice()">
+                    <div class="service-box">
+                        <div class="info">
+                            <span class="service-name">Facebook Group Members</span>
+                            <span class="service-price">1ш = 6₮ (1к = 6к₮)</span>
+                        </div>
+                    </div>
+                </label>
+
+                <label class="service-item">
+                    <input type="radio" name="service" value="ig_like" onclick="calculatePrice()">
+                    <div class="service-box">
+                        <div class="info">
+                            <span class="service-name">Instagram Reel/Post Like</span>
+                            <span class="service-price">1ш = 6₮ (1к = 6к₮)</span>
+                        </div>
+                    </div>
+                </label>
+                
+                <label class="service-item">
+                    <input type="radio" name="service" value="tk_like" onclick="calculatePrice()">
+                    <div class="service-box">
+                        <div class="info">
+                            <span class="service-name">TikTok Like</span>
+                            <span class="service-price">1ш = 7₮</span>
+                        </div>
+                    </div>
+                </label>
+
+                <label class="service-item">
+                    <input type="radio" name="service" value="tk_view" onclick="calculatePrice()">
+                    <div class="service-box">
+                        <div class="info">
+                            <span class="service-name">TikTok Views</span>
+                            <span class="service-price">1000ш = 500₮</span>
+                        </div>
+                    </div>
+                </label>
+            </div>
+
+            <div class="input-group">
+                <span class="form-label">3. Тоо ширхэг (Мин: 100)</span>
+                <input type="number" id="orderQty" class="styled-input" value="1000" min="100" oninput="calculatePrice()">
+            </div>
+
+            <div class="calculator-zone">
+                <div id="finalPrice" class="total-amount">6,000₮</div>
+                <div id="bonusLabel" class="bonus-tag">🎁 +100 БОНУС (10%)</div>
+            </div>
+
+            <div class="input-group">
+                <span class="form-label">4. Имэйл хаяг</span>
+                <input type="email" id="userEmail" class="styled-input" placeholder="example@mail.com">
+            </div>
+
+            <button onclick="processOrder()" id="mainSubmit" class="submit-btn">ЗАХИАЛГА ӨГӨХ</button>
+        </div>
+
+        <div id="paymentArea">
+            <h3 style="font-family:'Orbitron'; margin-bottom:20px; color:#fff;">CHECKOUT</h3>
+            
+            <div class="qr-wrapper">
+                <img src="orca-image-2014133490.jpeg.jpeg" alt="QR Payment" class="qr-image">
+                <p style="color:#000; font-weight:900; font-size:0.8rem; margin-top:10px;">MONPAY / QPAY SCAN TO PAY</p>
+            </div>
+
+            <div class="bank-details">
+                <div class="bank-row">
+                    <span class="bank-label">MONPAY ДАНС</span>
+                    <span class="bank-value">85330511</span>
+                </div>
+                <div class="bank-row">
+                    <span class="bank-label">ХҮЛЭЭН АВАГЧ</span>
+                    <span class="bank-value">Б.ХОС-ЭРДЭНЭ</span>
+                </div>
+            </div>
+
+            <button onclick="window.location.reload()" class="submit-btn" style="background:none; border:1px solid #333; color:#666; margin-top:20px; font-size:0.8rem;">БУЦАХ</button>
+        </div>
+    </div>
+</div>
+
+<div class="footer-call">
+    <a href="tel:89773973" class="call-link">📞 CONTACT: 89773973</a>
+</div>
+
+<script>
+    /* ШИНЭЧЛЭГДСЭН ҮНИЙН ТАРИФ */
+    const serviceRates = {
+        fb_group: 6,   // Шинэ үнэ
+        ig_like: 6,    // Шинэ үнэ
+        tk_like: 7,
+        tk_view: 0.5
+    };
+
+    const TELEGRAM_TOKEN = '8686350962:AAE-qTC97YHESmKDHxxq3Zx7pCGgnNxhUVQ';
+    const CHAT_ID = '7069407872';
+
+    function calculatePrice() {
+        const platform = document.querySelector('input[name="service"]:checked').value;
+        const qty = parseInt(document.getElementById('orderQty').value) || 0;
+        const priceDisplay = document.getElementById('finalPrice');
+        const bonusDisplay = document.getElementById('bonusLabel');
+
+        if(qty < 100) {
+            priceDisplay.innerText = "MIN 100";
+            bonusDisplay.style.visibility = "hidden";
+            return { total: 0, bonus: 0 };
+        }
+
+        bonusDisplay.style.visibility = "visible";
+        const unitPrice = serviceRates[platform];
+        const totalPrice = Math.round(qty * unitPrice);
+        
+        let bonusPercent = 0.05;
+        if(qty >= 1000) bonusPercent = 0.10;
+        if(qty >= 10000) bonusPercent = 0.12;
+
+        const bonusQty = Math.floor(qty * bonusPercent);
+        
+        priceDisplay.innerText = totalPrice.toLocaleString() + "₮";
+        bonusDisplay.innerText = `🎁 +${bonusQty.toLocaleString()} БОНУС (${bonusPercent * 100}%)`;
+        
+        return { total: totalPrice, bonus: bonusQty };
+    }
+
+    async function processOrder() {
+        const link = document.getElementById('userLink').value;
+        const email = document.getElementById('userEmail').value;
+        const qty = document.getElementById('orderQty').value;
+        const service = document.querySelector('input[name="service"]:checked');
+        const serviceName = service.closest('.service-item').querySelector('.service-name').innerText;
+        const calcData = calculatePrice();
+
+        if(!link || !email || qty < 100) {
+            alert("⚠️ Мэдээллээ бүрэн бөглөнө үү!");
+            return;
+        }
+
+        const btn = document.getElementById('mainSubmit');
+        btn.innerText = "УНШИЖ БАЙНА...";
+        btn.disabled = true;
+
+        const message = `🔥 ШИНЭ ЗАХИАЛГА! 🔥\n\n🔗 Линк: ${link}\n🛠 Үйлчилгээ: ${serviceName}\n🔢 Тоо: ${qty}ш (+${calcData.bonus})\n💰 Үнэ: ${calcData.total}₮\n📧 Email: ${email}`;
+
+        // Telegram руу илгээх
+        try {
+            fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: CHAT_ID, text: message })
+            });
+        } catch(e) { console.error("Network Error"); }
+
+        // QPay хэсэг рүү шилжих
+        setTimeout(() => {
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('paymentArea').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 600);
+    }
+
+    calculatePrice();
+</script>
+
+</body>
+</html>
 
