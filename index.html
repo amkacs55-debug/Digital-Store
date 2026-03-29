@@ -1,1 +1,409 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUANTUM CORE | DIGITAL STORE 4000</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap');
+
+        :root {
+            /* 4000 OYNY UNGVVD */
+            --plasma-cyan: #00ffff;
+            --deep-violet: #ff00ff;
+            --quantum-glow: rgba(0, 255, 255, 0.5);
+            --void-black: #010002;
+            --core-glass: rgba(10, 0, 15, 0.9);
+            --border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: var(--void-black);
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* STARFIELD BACKGROUND */
+        body::before {
+            content: '';
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
+            background-position: 0 0, 40px 60px, 130px 270px;
+            z-index: -2;
+            opacity: 0.6;
+            animation: star-drift 100s linear infinite;
+        }
+
+        /* PLASMA AURORA */
+        body::after {
+            content: '';
+            position: fixed; bottom: -50vh; left: -50vw; width: 200vw; height: 100vh;
+            background: radial-gradient(circle, rgba(255,0,255,0.1) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(100px);
+            animation: plasma-drift 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes star-drift { from { background-position: 0 0; } to { background-position: 1000px 1000px; } }
+        @keyframes plasma-drift { from { transform: translate(0, 0) scale(1); } to { transform: translate(20vw, 20vh) scale(1.1); } }
+
+        .container {
+            width: 90%;
+            max-width: 440px;
+            padding: 50px 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* HUD ELEMENTS */
+        .hud-scan {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 4px;
+            pointer-events: none; z-index: 50; opacity: 0.5;
+        }
+
+        /* HEADER */
+        header { text-align: center; margin-bottom: 50px; position: relative; }
+        .logo-core {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.2rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--plasma-cyan), var(--deep-violet));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+            letter-spacing: -3px;
+            text-transform: uppercase;
+            animation: logo-glow 3s infinite alternate;
+        }
+        .core-status {
+            font-size: 9px;
+            color: #444;
+            letter-spacing: 5px;
+            margin-top: -5px;
+            display: flex; justify-content: center; align-items: center; gap: 8px;
+        }
+        .status-dot { width: 6px; height: 6px; background: var(--plasma-cyan); border-radius: 50%; box-shadow: 0 0 10px var(--plasma-cyan); animation: pulse 1s infinite; }
+
+        @keyframes logo-glow { from { filter: drop-shadow(0 0 10px rgba(0,255,255,0.4)); } to { filter: drop-shadow(0 0 25px rgba(255,0,255,0.5)); } }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+
+        /* QUANTUM CARD */
+        .quantum-card {
+            background: var(--core-glass);
+            backdrop-filter: blur(15px);
+            border: var(--border);
+            padding: 25px;
+            border-radius: 5px;
+            position: relative;
+            box-shadow: inset 0 0 30px rgba(0, 255, 255, 0.03);
+        }
+        .quantum-card::before {
+            content: ''; position: absolute; top: -1px; left: -1px; width: 50px; height: 50px;
+            border-top: 2px solid var(--plasma-cyan); border-left: 2px solid var(--plasma-cyan);
+        }
+        .quantum-card::after {
+            content: ''; position: absolute; bottom: -1px; right: -1px; width: 50px; height: 50px;
+            border-bottom: 2px solid var(--deep-violet); border-right: 2px solid var(--deep-violet);
+        }
+
+        /* INPUTS */
+        .input-group { margin-bottom: 25px; position: relative; }
+        .input-group label {
+            display: block;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 10px;
+            color: var(--plasma-cyan);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .input-group input {
+            width: 100%;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid #1a1a1a;
+            padding: 18px;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 16px;
+            border-radius: 0;
+            transition: 0.3s;
+        }
+        .input-group input:focus {
+            border-color: var(--plasma-cyan);
+            background: rgba(0, 255, 255, 0.02);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
+        }
+
+        /* SERVICE NODES */
+        .service-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            max-height: 350px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        .service-list::-webkit-scrollbar { width: 2px; }
+        .service-list::-webkit-scrollbar-thumb { background: linear-gradient(var(--plasma-cyan), var(--deep-violet)); }
+
+        .service-node {
+            background: rgba(255,255,255,0.01);
+            border: 1px solid #1a1a1a;
+            padding: 18px;
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer;
+            transition: 0.3s ease;
+            position: relative;
+        }
+        .service-node:hover { background: rgba(255,255,255,0.03); transform: translateX(3px); }
+
+        .service-node.active {
+            border-color: var(--plasma-cyan);
+            background: linear-gradient(90deg, rgba(0, 255, 255, 0.05) 0%, transparent 100%);
+        }
+        .service-node.active::before {
+            content: ''; position: absolute; left: 0; top: 0; width: 3px; height: 100%;
+            background: var(--plasma-cyan); box-shadow: 0 0 15px var(--plasma-cyan);
+        }
+
+        .node-name b { font-family: 'Orbitron', sans-serif; font-size: 13px; display: block; text-transform: uppercase; letter-spacing: 1px; }
+        .node-name span { font-size: 11px; color: #555; }
+        .node-price { color: var(--plasma-cyan); font-family: 'Orbitron', sans-serif; font-weight: bold; font-size: 13px; text-shadow: 0 0 10px var(--quantum-glow); }
+
+        /* CALC DISPLAY */
+        .calc-view {
+            margin-top: 35px;
+            padding: 35px 20px;
+            border: var(--border);
+            text-align: center;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.05) 0%, transparent 70%);
+        }
+        .total-amount { 
+            font-family: 'Orbitron', sans-serif; font-size: 52px; font-weight: 900; 
+            background: linear-gradient(to bottom, #fff, var(--plasma-cyan));
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            text-shadow: 0 0 25px var(--quantum-glow);
+        }
+        .bonus-unit { color: #fbd38d; font-size: 13px; font-weight: bold; margin-top: 5px; text-transform: uppercase; }
+
+        /* PROTOCOL BUTTON */
+        .btn-protocol {
+            width: 100%;
+            padding: 24px;
+            margin-top: 30px;
+            background: linear-gradient(45deg, var(--plasma-cyan), var(--deep-violet));
+            color: #000;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 17px;
+            transition: 0.3s ease;
+            position: relative;
+        }
+        .btn-protocol:hover {
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+            filter: brightness(1.1);
+        }
+        .btn-protocol:active { transform: scale(0.98); }
+
+        /* CONTACT HUBS */
+        .hub-connections {
+            margin-top: 40px;
+            display: flex; justify-content: center; gap: 40px;
+        }
+        .hub-link {
+            text-decoration: none;
+            color: #666;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+            transition: 0.3s;
+        }
+        .hub-link i { font-size: 26px; color: var(--plasma-cyan); text-shadow: 0 0 10px var(--quantum-glow); }
+        .hub-link:hover { color: var(--plasma-cyan); text-shadow: 0 0 15px var(--plasma-cyan); transform: translateY(-3px); }
+
+        /* CHECKOUT PROTOCOL */
+        #checkout {
+            display: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(1,0,2,0.98);
+            z-index: 1000;
+            flex-direction: column; align-items: center; justify-content: center;
+            backdrop-filter: blur(25px);
+        }
+
+        .qr-protocol {
+            padding: 15px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.4);
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .qr-protocol::before {
+            content: 'QUANTUM PAY'; position: absolute; top: -20px; left: 0; width: 100%;
+            color: var(--plasma-cyan); font-family: 'Orbitron'; font-size: 10px; text-align: center;
+        }
+        .qr-protocol img { width: 220px; display: block; }
+        
+        .bank-node {
+            background: var(--core-glass);
+            border: var(--border);
+            padding: 25px;
+            width: 85%;
+            max-width: 360px;
+            border-radius: 0;
+            border-left: 4px solid var(--deep-violet);
+        }
+        .bank-node p { font-size: 14px; margin-bottom: 5px; color: #777; }
+        .bank-node span { color: var(--plasma-cyan); font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: bold; text-shadow: 0 0 10px var(--quantum-glow); }
+    </style>
+</head>
+<body>
+
+<div class="hud-scan"></div>
+
+<div class="container" id="app">
+    <header>
+        <h1 class="logo-core">DIGITAL STORE</h1>
+        <div class="core-status">
+            <div class="status-dot"></div>
+            CORE SYSTEM v4000.1.3 // ONLINE
+        </div>
+    </header>
+
+    <div class="quantum-card">
+        <div class="input-group">
+            <label>01. Neural Link (Profile)</label>
+            <input type="text" id="targetLink" placeholder="QUANTUM_LINK_URL">
+        </div>
+
+        <div class="input-group">
+            <label>02. Comms Protocol (Phone)</label>
+            <input type="number" id="targetPhone" placeholder="85330511">
+        </div>
+
+        <label style="color:var(--plasma-cyan); font-size:11px; font-family:'Orbitron'; margin-bottom:15px; display:block;">03. Select Service Node</label>
+        <div class="service-list">
+            <div class="service-node active" onclick="updateSvc(this, 'Instagram Followers', 7)">
+                <div class="node-name"><b>Instagram Followers</b><span>Premium High-Quality Nodes</span></div>
+                <div class="node-price">7₮</div>
+            </div>
+            <div class="service-node" onclick="updateSvc(this, 'IG Post Likes', 5)">
+                <div class="node-name"><b>IG Post/Reel Likes</b><span>Rapid Plasma Delivery</span></div>
+                <div class="node-price">5₮</div>
+            </div>
+            <div class="service-node" onclick="updateSvc(this, 'FB Page Followers', 7)">
+                <div class="node-name"><b>FB Page Follow</b><span>Real Active Entities</span></div>
+                <div class="node-price">7₮</div>
+            </div>
+            <div class="service-node" onclick="updateSvc(this, 'TikTok Views', 1)">
+                <div class="node-name"><b>TikTok Views</b><span>Viral Warp Speed</span></div>
+                <div class="node-price">1₮</div>
+            </div>
+            <div class="service-node" onclick="updateSvc(this, 'TikTok Likes', 6)">
+                <div class="node-name"><b>TikTok Likes</b><span>Social Proof Matrix</span></div>
+                <div class="node-price">6₮</div>
+            </div>
+        </div>
+
+        <div class="input-group" style="margin-top:25px;">
+            <label>04. Quantity Units</label>
+            <input type="number" id="qty" value="1000" oninput="calculate()">
+        </div>
+
+        <div class="calc-view">
+            <div class="total-amount" id="finalPrice">7,000₮</div>
+            <div class="bonus-unit" id="bonusTxt">🎁 QUANTUM BONUS: +100 Units (10%)</div>
+        </div>
+
+        <button class="btn-protocol" onclick="initiateProtocol()">Initiate Transfer</button>
+    </div>
+
+    <div class="hub-connections">
+        <a href="tel:85330511" class="hub-link">
+            <i class="fas fa-satellite-dish"></i>
+            <span>UPLINK</span>
+        </a>
+        <a href="https://instagram.com/Arhat_0625" target="_blank" class="hub-link">
+            <i class="fab fa-instagram"></i>
+            <span>IG_CORE</span>
+        </a>
+    </div>
+</div>
+
+<div id="checkout">
+    <h2 style="font-family:'Orbitron'; color:var(--plasma-cyan); margin-bottom:30px; letter-spacing:8px; text-transform:uppercase;">Transfer Protocol</h2>
+    <div class="qr-protocol">
+        <img src="orca-image-2014133490.jpeg.jpeg" alt="Qpay QR">
+    </div>
+    <div class="bank-node">
+        <p>CORE_ACCOUNT:</p>
+        <span>99106925689</span>
+        <p style="margin-top:15px;">RECIPIENT_ENTITY:</p>
+        <span>Б.ХОС-ЭРДЭНЭ</span>
+    </div>
+    <button onclick="location.reload()" style="margin-top:40px; background:none; border:1px solid #222; color:#555; padding:10px 40px; cursor:pointer; font-family:'Orbitron'; font-size:10px;">ABORT PROTOCOL</button>
+</div>
+
+<script>
+    let activePrice = 7;
+    let activeName = 'Instagram Followers';
+
+    function updateSvc(el, name, price) {
+        document.querySelectorAll('.service-node').forEach(n => n.classList.remove('active'));
+        el.classList.add('active');
+        activePrice = price;
+        activeName = name;
+        calculate();
+    }
+
+    function calculate() {
+        const val = document.getElementById('qty').value || 0;
+        const total = val * activePrice;
+        const bonus = Math.floor(val * 0.1);
+        document.getElementById('finalPrice').innerText = total.toLocaleString() + "₮";
+        document.getElementById('bonusTxt').innerText = `🎁 QUANTUM BONUS: +${bonus.toLocaleString()} Units (10%)`;
+    }
+
+    async function initiateProtocol() {
+        const link = document.getElementById('targetLink').value;
+        const phone = document.getElementById('targetPhone').value;
+        const count = document.getElementById('qty').value;
+        if(!link || !phone || !count) return alert("CRITICAL ERROR: DATA MISSING");
+
+        const msg = `🚀 QUANTUM TRANSFER\n\nID: ${phone}\nNODE: ${activeName}\nQTY: ${count}\nAMT: ${document.getElementById('finalPrice').innerText}\nLINK: ${link}`;
+        
+        try {
+            await fetch(`https://api.telegram.org/bot8686350962:AAE-qTC97YHESmKDHxxq3Zx7pCGgnNxhUVQ/sendMessage?chat_id=7069407872&text=${encodeURIComponent(msg)}`);
+        } catch(e) {}
+
+        document.getElementById('app').style.opacity = '0';
+        setTimeout(() => {
+            document.getElementById('app').style.display = 'none';
+            document.getElementById('checkout').style.display = 'flex';
+        }, 500);
+    }
+</script>
+</body>
+</html>
 
