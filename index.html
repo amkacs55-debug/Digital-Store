@@ -1,1 +1,291 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SINGULARITY | DIGITAL STORE 200,000</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Noto+Sans+Mongolian&family=Rajdhani:wght@300;700&display=swap');
+
+        :root {
+            --energy-white: #ffffff;
+            --void-glow: rgba(255, 255, 255, 0.8);
+            --black-hole: #000000;
+            --dim-gray: #111111;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: var(--black-hole);
+            color: var(--energy-white);
+            font-family: 'Rajdhani', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* VERTICAL MONGOLIAN SCROLL (SIDES) */
+        .mongol-scroll {
+            position: fixed;
+            top: 0;
+            height: 100vh;
+            width: 60px;
+            writing-mode: vertical-lr;
+            font-family: 'Noto Sans Mongolian', serif;
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            white-space: nowrap;
+            z-index: 1;
+            pointer-events: none;
+            animation: scroll-vertical 20s linear infinite;
+        }
+        .left-scroll { left: 10px; }
+        .right-scroll { right: 10px; transform: rotate(180deg); }
+
+        @keyframes scroll-vertical {
+            from { transform: translateY(0); }
+            to { transform: translateY(-50%); }
+        }
+
+        /* BACKGROUND ENERGY PULSE */
+        .energy-pulse {
+            position: fixed;
+            top: 50%; left: 50%;
+            width: 100vw; height: 100vh;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            animation: pulse 4s ease-in-out infinite;
+        }
+        @keyframes pulse { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.6; } }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            padding: 60px 20px;
+            z-index: 10;
+        }
+
+        /* LOGO SINGULARITY */
+        header { text-align: center; margin-bottom: 60px; }
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 15px;
+            text-shadow: 0 0 30px var(--void-glow);
+            text-transform: uppercase;
+            position: relative;
+        }
+        .logo::after {
+            content: 'ӨВТЭГШ ДИЖИТАЛ';
+            position: absolute;
+            bottom: -20px; left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px; letter-spacing: 5px; color: #444; width: 100%;
+        }
+
+        /* NEURAL CARD */
+        .neural-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            position: relative;
+            backdrop-filter: blur(20px);
+        }
+
+        .input-wrap { margin-bottom: 30px; }
+        .input-wrap label {
+            display: block;
+            font-size: 10px;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            color: #666;
+            text-transform: uppercase;
+        }
+        .input-wrap input {
+            width: 100%;
+            background: none;
+            border: none;
+            border-bottom: 1px solid #333;
+            padding: 15px 0;
+            color: white;
+            font-size: 18px;
+            transition: 0.5s;
+        }
+        .input-wrap input:focus { border-bottom-color: white; box-shadow: 0 5px 15px rgba(255,255,255,0.05); }
+
+        /* SERVICE NODES */
+        .node-list { display: flex; flex-direction: column; gap: 15px; }
+        .node {
+            padding: 20px;
+            border: 1px solid #111;
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; transition: 0.3s;
+        }
+        .node.active {
+            border-color: white;
+            background: white;
+            color: black;
+        }
+        .node-title { font-weight: 700; font-size: 14px; text-transform: uppercase; }
+        .node-price { font-family: 'Orbitron'; font-size: 14px; }
+
+        /* TOTAL DISPLAY */
+        .total-display {
+            margin-top: 40px;
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid #111;
+        }
+        .amt { font-family: 'Orbitron'; font-size: 60px; font-weight: 900; }
+        .bonus { font-size: 11px; letter-spacing: 2px; color: #666; margin-top: 10px; }
+
+        /* ACTION BUTTON */
+        .btn-sync {
+            width: 100%;
+            padding: 25px;
+            background: white;
+            color: black;
+            border: none;
+            font-family: 'Orbitron';
+            font-weight: 900;
+            font-size: 18px;
+            letter-spacing: 5px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: 0.3s;
+        }
+        .btn-sync:hover { background: #ccc; box-shadow: 0 0 50px rgba(255,255,255,0.2); }
+
+        /* CONTACTS */
+        .comms {
+            margin-top: 50px;
+            display: flex; justify-content: center; gap: 40px;
+        }
+        .comm-link {
+            text-decoration: none; color: #444; font-size: 12px;
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+            transition: 0.3s;
+        }
+        .comm-link i { font-size: 20px; color: white; }
+        .comm-link:hover { color: white; }
+
+        /* CHECKOUT */
+        #checkout {
+            display: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: black; z-index: 1000;
+            flex-direction: column; align-items: center; justify-content: center;
+        }
+        .qr-box { padding: 10px; background: white; margin-bottom: 30px; box-shadow: 0 0 50px rgba(255,255,255,0.3); }
+        .qr-box img { width: 220px; display: block; }
+    </style>
+</head>
+<body>
+
+<div class="mongol-scroll left-scroll">
+    ᠮᠣᠩᠭᠣᠯ ᠪᠢᠴᠢᠭ ᠪᠣᠯ ᠮᠥᠩᠬᠡ ᠲᠩ᠋ᠥᠷᠢ ᠵᠢᠨ ᠬᠡᠯᠡ ᠮᠣᠩᠭᠣᠯ ᠪᠢᠴᠢᠭ ᠪᠣᠯ ᠮᠥᠩᠬᠡ ᠲᠩ᠋ᠥᠷᠢ ᠵᠢᠨ ᠬᠡᠯᠡ
+</div>
+<div class="mongol-scroll right-scroll">
+    ᠳᠢᠵᠢᠲᠠᠯ ᠳᠡᠯᠭᠡᠭᠦᠷ 200000 ᠳᠢᠵᠢᠲᠠᠯ ᠳᠡᠯᠭᠡᠭᠦᠷ 200000 ᠳᠢᠵᠢᠲᠠᠯ ᠳᠡᠯᠭᠡᠭᠦᠷ 200000
+</div>
+<div class="energy-pulse"></div>
+
+<div class="container" id="app">
+    <header>
+        <div class="logo">DIGITAL</div>
+    </header>
+
+    <div class="neural-card">
+        <div class="input-wrap">
+            <label>Neural ID (Phone)</label>
+            <input type="number" id="phone" placeholder="85330511">
+        </div>
+
+        <div class="input-wrap">
+            <label>Data Stream (Link)</label>
+            <input type="text" id="link" placeholder="SOURCE_URL">
+        </div>
+
+        <div class="node-list">
+            <div class="node active" onclick="setSvc(this, 'IG Followers', 7)">
+                <span class="node-title">IG Followers</span><span class="node-price">7₮</span>
+            </div>
+            <div class="node" onclick="setSvc(this, 'IG Likes', 5)">
+                <span class="node-title">IG Likes</span><span class="node-price">5₮</span>
+            </div>
+            <div class="node" onclick="setSvc(this, 'TikTok Views', 1)">
+                <span class="node-title">TikTok Views</span><span class="node-price">1₮</span>
+            </div>
+        </div>
+
+        <div class="input-wrap" style="margin-top:30px;">
+            <label>Unit Count</label>
+            <input type="number" id="qty" value="1000" oninput="calc()">
+        </div>
+
+        <div class="total-display">
+            <div class="amt" id="total">7,000₮</div>
+            <div class="bonus">SYSTEM_BONUS: +10% GENERATED</div>
+        </div>
+
+        <button class="btn-sync" onclick="sync()">SYNC PROTOCOL</button>
+    </div>
+
+    <div class="comms">
+        <a href="tel:85330511" class="comm-link"><i class="fas fa-terminal"></i><span>VOICE_UPLINK</span></a>
+        <a href="https://instagram.com/Arhat_0625" target="_blank" class="comm-link"><i class="fab fa-instagram"></i><span>CORE_IG</span></a>
+    </div>
+</div>
+
+<div id="checkout">
+    <div class="qr-box">
+        <img src="orca-image-2014133490.jpeg.jpeg" alt="QPAY">
+    </div>
+    <div style="text-align:center; font-family:'Orbitron';">
+        <p style="color:#666; font-size:12px;">ACCOUNT_NODE</p>
+        <p style="font-size:24px; margin:10px 0;">99106925689</p>
+        <p style="color:#666; font-size:12px;">RECIPIENT</p>
+        <p style="font-size:18px;">Б.ХОС-ЭРДЭНЭ</p>
+    </div>
+    <button onclick="location.reload()" style="margin-top:50px; background:none; border:1px solid #222; color:#333; padding:10px 30px; cursor:pointer;">ABORT</button>
+</div>
+
+<script>
+    let price = 7;
+    let svcName = 'IG Followers';
+
+    function setSvc(el, name, p) {
+        document.querySelectorAll('.node').forEach(n => n.classList.remove('active'));
+        el.classList.add('active');
+        price = p; svcName = name; calc();
+    }
+
+    function calc() {
+        const q = document.getElementById('qty').value || 0;
+        document.getElementById('total').innerText = (q * price).toLocaleString() + "₮";
+    }
+
+    async function sync() {
+        const p = document.getElementById('phone').value;
+        const l = document.getElementById('link').value;
+        if(!p || !l) return alert("DATA_INCOMPLETE");
+
+        const msg = `🌌 200,000 ON - PROTOCOL SYNC\n\nID: ${p}\nNODE: ${svcName}\nAMT: ${document.getElementById('total').innerText}\nLINK: ${l}`;
+        await fetch(`https://api.telegram.org/bot8686350962:AAE-qTC97YHESmKDHxxq3Zx7pCGgnNxhUVQ/sendMessage?chat_id=7069407872&text=${encodeURIComponent(msg)}`);
+        
+        document.getElementById('app').style.display = 'none';
+        document.getElementById('checkout').style.display = 'flex';
+    }
+</script>
+</body>
+</html>
 
