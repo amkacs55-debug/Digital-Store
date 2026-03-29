@@ -1,1 +1,307 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIGITAL STORE | NEON PINK</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { 
+            --neon: #ff00ff; /* Неон ягаан */
+            --glow: rgba(255, 0, 255, 0.5);
+            --dark: #080008; 
+            --card: #150015;
+        }
+        
+        body { 
+            background: var(--dark); 
+            color: white; 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            margin: 0; 
+            padding-bottom: 120px;
+            overflow-x: hidden;
+        }
+
+        .container { width: 90%; max-width: 420px; }
+
+        /* Header & Logo */
+        .logo-section { text-align: center; margin-top: 40px; margin-bottom: 30px; }
+        .logo { 
+            width: 120px; 
+            height: 120px;
+            border-radius: 50%;
+            border: 2px solid var(--neon);
+            box-shadow: 0 0 20px var(--glow);
+            object-fit: cover;
+        }
+        h1 { 
+            font-size: 2.5rem; 
+            color: var(--neon); 
+            text-shadow: 0 0 10px var(--glow);
+            letter-spacing: 3px; 
+            margin: 15px 0 5px; 
+            font-weight: 900; 
+            font-style: italic;
+        }
+        .subtitle { color: #888; font-size: 12px; font-weight: bold; letter-spacing: 1px; }
+
+        /* Form Styling */
+        label { 
+            color: var(--neon); 
+            font-size: 12px; 
+            font-weight: 800; 
+            display: block; 
+            margin: 25px 0 12px 5px; 
+            text-transform: uppercase; 
+        }
+        input { 
+            width: 100%; 
+            padding: 20px; 
+            background: var(--card); 
+            border: 1px solid #330033; 
+            color: white; 
+            border-radius: 18px; 
+            box-sizing: border-box; 
+            outline: none; 
+            font-size: 15px;
+            transition: 0.3s;
+        }
+        input:focus { border-color: var(--neon); box-shadow: 0 0 15px var(--glow); }
+
+        /* Service List */
+        .service-list { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+            max-height: 350px; 
+            overflow-y: auto; 
+            padding-right: 5px;
+        }
+        .service-item { 
+            background: var(--card); 
+            border: 1px solid #220022; 
+            padding: 18px; 
+            border-radius: 18px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            cursor: pointer; 
+            transition: 0.3s; 
+        }
+        .service-item.active { 
+            border-color: var(--neon); 
+            background: rgba(255, 0, 255, 0.08); 
+            transform: scale(1.02);
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.2);
+        }
+        .service-name { font-size: 14px; font-weight: 600; }
+        .service-price { color: var(--neon); font-weight: 800; }
+
+        /* Price Calculation */
+        .price-display { 
+            text-align: center; 
+            margin-top: 35px; 
+            padding: 40px 20px; 
+            background: linear-gradient(180deg, #150015 0%, #080008 100%); 
+            border-radius: 30px; 
+            border: 1px solid #330033;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .total-amt { 
+            font-size: 55px; 
+            font-weight: 900; 
+            color: #fff; 
+            text-shadow: 0 0 20px var(--glow);
+            margin-bottom: 10px; 
+        }
+        .bonus-badge { 
+            color: #ffd700; 
+            background: rgba(255, 215, 0, 0.1); 
+            padding: 8px 18px; 
+            border-radius: 50px; 
+            font-size: 13px; 
+            font-weight: bold; 
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .btn-order { 
+            width: 100%; 
+            padding: 24px; 
+            margin-top: 30px; 
+            background: var(--neon); 
+            border: none; 
+            color: white; 
+            font-weight: 900; 
+            border-radius: 20px; 
+            cursor: pointer; 
+            text-transform: uppercase; 
+            letter-spacing: 2px;
+            font-size: 16px;
+            box-shadow: 0 5px 20px var(--glow);
+            transition: 0.3s;
+        }
+        .btn-order:active { transform: scale(0.96); }
+
+        /* Navigation */
+        .bottom-nav { 
+            position: fixed; 
+            bottom: 0; 
+            width: 100%; 
+            background: rgba(8, 0, 8, 0.95); 
+            backdrop-filter: blur(10px);
+            border-top: 1px solid #330033; 
+            display: flex; 
+            z-index: 90; 
+            padding: 15px 0; 
+        }
+        .nav-link { flex: 1; text-align: center; color: #555; text-decoration: none; font-size: 11px; font-weight: bold; }
+        .nav-link i { display: block; font-size: 24px; margin-bottom: 5px; }
+        .nav-link.active { color: var(--neon); text-shadow: 0 0 10px var(--glow); }
+
+        /* Checkout View */
+        #checkout-screen { 
+            display: none; 
+            position: fixed; 
+            top: 0; left: 0; width: 100%; height: 100%; 
+            background: var(--dark); 
+            z-index: 100; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        .qr-card { 
+            background: white; 
+            padding: 15px; 
+            border-radius: 25px; 
+            margin-bottom: 30px;
+            box-shadow: 0 0 30px var(--glow);
+        }
+        .qr-card img { width: 240px; display: block; }
+        .bank-info { 
+            width: 85%; 
+            background: var(--card); 
+            padding: 25px; 
+            border-radius: 20px; 
+            border: 1px solid #330033;
+            border-left: 6px solid var(--neon);
+        }
+        .bank-info p { margin: 10px 0; font-size: 14px; color: #ccc; }
+        .val { color: var(--neon); font-weight: bold; font-size: 16px; }
+    </style>
+</head>
+<body>
+
+<div class="container" id="main-form">
+    <div class="logo-section">
+        <img src="logo.jpg" class="logo" alt="Digital Store">
+        <h1>DIGITAL STORE</h1>
+        <div class="subtitle">PREMIUM SMM SOLUTIONS</div>
+    </div>
+
+    <label><i class="fas fa-link"></i> 1. ЛИНК (LINK)</label>
+    <input type="text" id="orderLink" placeholder="Профайл эсвэл постоо хийнэ үү">
+
+    <label><i class="fas fa-phone"></i> 2. ХОЛБОГДОХ ДУГААР</label>
+    <input type="number" id="orderPhone" placeholder="85330511">
+
+    <label><i class="fas fa-list"></i> 3. ҮЙЛЧИЛГЭЭ СОНГОХ</label>
+    <div class="service-list">
+        <div class="service-item active" onclick="selSvc(this, 'Instagram Followers', 7)">
+            <span class="service-name">Instagram Followers</span><span class="service-price">1 = 7₮</span>
+        </div>
+        <div class="service-item" onclick="selSvc(this, 'Instagram Post/Reel Like', 5)">
+            <span class="service-name">Instagram Post/Reel Like</span><span class="service-price">1 = 5₮</span>
+        </div>
+        <div class="service-item" onclick="selSvc(this, 'Facebook Page Followers', 7)">
+            <span class="service-name">Facebook Page Followers</span><span class="service-price">1 = 7₮</span>
+        </div>
+        <div class="service-item" onclick="selSvc(this, 'Facebook Group Members', 4)">
+            <span class="service-name">Facebook Group Members</span><span class="service-price">1 = 4₮</span>
+        </div>
+        <div class="service-item" onclick="selSvc(this, 'Facebook Post Share', 10)">
+            <span class="service-name">Facebook Post Share</span><span class="service-price">1 = 10₮</span>
+        </div>
+        <div class="service-item" onclick="selSvc(this, 'TikTok Views', 1)">
+            <span class="service-name">TikTok Views</span><span class="service-price">1 = 1₮</span>
+        </div>
+        <div class="service-item" onclick="selSvc(this, 'TikTok Likes', 6)">
+            <span class="service-name">TikTok Likes</span><span class="service-price">1 = 6₮</span>
+        </div>
+    </div>
+
+    <label><i class="fas fa-calculator"></i> 4. ТОО ШИРХЭГ</label>
+    <input type="number" id="orderCount" value="1000" oninput="recalc()">
+
+    <div class="price-display">
+        <div class="total-amt" id="totalVal">7,000₮</div>
+        <div class="bonus-badge" id="bonusVal">🎁 +100 БОНУС (10%)</div>
+    </div>
+
+    <button class="btn-order" onclick="placeOrder()">ЗАХИАЛГА ӨГӨХ</button>
+</div>
+
+<div class="bottom-nav">
+    <a href="tel:85330511" class="nav-link"><i class="fas fa-headset"></i> CALL US</a>
+    <a href="https://instagram.com/Arhat_0625" class="nav-link active"><i class="fab fa-instagram"></i> INSTAGRAM</a>
+</div>
+
+<div id="checkout-screen">
+    <h2 style="color: var(--neon); letter-spacing: 2px; margin-bottom: 25px;">ТӨЛБӨР ТӨЛӨХ</h2>
+    <div class="qr-card">
+        <img src="monpay_qr.jpg" alt="Monpay QR">
+    </div>
+    <div class="bank-info">
+        <p>ДАНСНЫ МЭДЭЭЛЭЛ:</p>
+        <p>MONPAY / ДАНС: <span class="val">99106925689</span></p>
+        <p>ХҮЛЭЭН АВАГЧ: <span class="val">Б.ХОС-ЭРДЭНЭ</span></p>
+    </div>
+    <button onclick="location.reload()" style="margin-top: 35px; background: transparent; color: #555; border: 1px solid #333; padding: 12px 40px; border-radius: 12px; cursor: pointer; font-weight: bold;">БУЦАХ</button>
+</div>
+
+<script>
+    let pricePerUnit = 7;
+    let selectedName = 'Instagram Followers';
+
+    function selSvc(el, name, price) {
+        document.querySelectorAll('.service-item').forEach(i => i.classList.remove('active'));
+        el.classList.add('active');
+        pricePerUnit = price;
+        selectedName = name;
+        recalc();
+    }
+
+    function recalc() {
+        const count = document.getElementById('orderCount').value || 0;
+        const total = count * pricePerUnit;
+        const bonus = Math.floor(count * 0.1);
+        document.getElementById('totalVal').innerText = total.toLocaleString() + "₮";
+        document.getElementById('bonusVal').innerText = `🎁 +${bonus.toLocaleString()} БОНУС (10%)`;
+    }
+
+    async function placeOrder() {
+        const link = document.getElementById('orderLink').value;
+        const phone = document.getElementById('orderPhone').value;
+        const count = document.getElementById('orderCount').value;
+        const total = document.getElementById('totalVal').innerText;
+        const bonus = document.getElementById('bonusVal').innerText;
+
+        if(!link || !phone || !count) { alert("Мэдээллээ бүрэн бөглөнө үү!"); return; }
+
+        const token = "8686350962:AAE-qTC97YHESmKDHxxq3Zx7pCGgnNxhUVQ";
+        const chat_id = "7069407872";
+        const msg = `💗 ШИНЭ ЗАХИАЛГА (PINK)!\n\n📞 Утас: ${phone}\n📦 Үйлчилгээ: ${selectedName}\n🔢 Тоо: ${count}\n🎁 Бонус: ${bonus}\n💰 Нийт: ${total}\n🔗 Линк: ${link}`;
+
+        await fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(msg)}`);
+        
+        document.getElementById('main-form').style.display = 'none';
+        document.getElementById('checkout-screen').style.display = 'flex';
+        window.scrollTo(0, 0);
+    }
+</script>
+
+</body>
+</html>
 
