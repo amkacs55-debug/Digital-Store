@@ -1,1 +1,144 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIGITAL STORE | PREMIUM SMM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --neon: #00f2ff; --dark: #050505; }
+        body { background: var(--dark); color: white; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; margin: 0; padding-bottom: 120px; }
+        .container { width: 90%; max-width: 400px; }
+        .logo-section { text-align: center; margin-top: 30px; }
+        .logo { width: 140px; filter: drop-shadow(0 0 15px var(--neon)); border-radius: 50%; }
+        h1 { font-size: 2.3rem; color: var(--neon); letter-spacing: 2px; margin: 10px 0; font-weight: 900; }
+        label { color: var(--neon); font-size: 13px; font-weight: bold; display: block; margin: 25px 0 10px; text-transform: uppercase; }
+        input { width: 100%; padding: 18px; background: #0f0f0f; border: 1px solid #222; color: white; border-radius: 15px; box-sizing: border-box; outline: none; }
+        
+        /* Service List */
+        .service-list { display: flex; flex-direction: column; gap: 8px; max-height: 300px; overflow-y: auto; padding-right: 5px; }
+        .service-item { background: #0f0f0f; border: 1px solid #222; padding: 15px; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.3s; }
+        .service-item.active { border-color: var(--neon); background: rgba(0, 242, 255, 0.05); }
+        .service-name { font-size: 14px; font-weight: 600; }
+        .service-price { color: var(--neon); font-size: 13px; font-weight: bold; }
 
+        /* Price display */
+        .price-box { text-align: center; margin-top: 30px; padding: 35px; background: #0f0f0f; border-radius: 25px; border: 1px solid #1a1a1a; }
+        .total-amt { font-size: 48px; font-weight: 900; margin-bottom: 5px; }
+        .bonus-tag { color: #fbd38d; background: rgba(251, 211, 141, 0.1); padding: 6px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; }
+
+        .btn-order { width: 100%; padding: 22px; margin-top: 25px; background: white; border: none; color: black; font-weight: 900; border-radius: 20px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Navigation */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #000; border-top: 1px solid #111; display: flex; z-index: 90; padding: 10px 0; }
+        .nav-link { flex: 1; text-align: center; color: #555; text-decoration: none; font-size: 10px; font-weight: bold; }
+        .nav-link i { display: block; font-size: 20px; margin-bottom: 5px; }
+        .nav-link.active { color: var(--neon); }
+
+        #checkout-view { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--dark); z-index: 100; flex-direction: column; align-items: center; justify-content: center; }
+        .qr-card { background: white; padding: 20px; border-radius: 25px; margin-bottom: 25px; }
+        .qr-card img { width: 220px; }
+    </style>
+</head>
+<body>
+
+<div class="container" id="order-view">
+    <div class="logo-section">
+        <img src="logo.jpg" class="logo">
+        <h1>DIGITAL STORE</h1>
+    </div>
+
+    <label>1. ЛИНК (LINK)</label>
+    <input type="text" id="uLink" placeholder="Линкээ оруулна уу">
+
+    <label>2. ХОЛБОГДОХ ДУГААР</label>
+    <input type="number" id="uPhone" placeholder="85330511">
+
+    <label>3. ҮЙЛЧИЛГЭЭ СОНГОХ</label>
+    <div class="service-list">
+        <div class="service-item active" onclick="updateSvc(this, 'IG Followers', 7)">
+            <span class="service-name">Instagram Followers</span><span class="service-price">1 = 7₮</span>
+        </div>
+        <div class="service-item" onclick="updateSvc(this, 'IG Reel/Post Like', 5)">
+            <span class="service-name">IG Reel/Post Like</span><span class="service-price">1 = 5₮</span>
+        </div>
+        <div class="service-item" onclick="updateSvc(this, 'FB Page Followers', 7)">
+            <span class="service-name">FB Page Followers</span><span class="service-price">1 = 7₮</span>
+        </div>
+        <div class="service-item" onclick="updateSvc(this, 'FB Group Members', 4)">
+            <span class="service-name">FB Group Members</span><span class="service-price">1 = 4₮</span>
+        </div>
+        <div class="service-item" onclick="updateSvc(this, 'FB Post Share', 10)">
+            <span class="service-name">FB Post Share</span><span class="service-price">1 = 10₮</span>
+        </div>
+        <div class="service-item" onclick="updateSvc(this, 'TikTok Likes', 6)">
+            <span class="service-name">TikTok Likes</span><span class="service-price">1 = 6₮</span>
+        </div>
+        <div class="service-item" onclick="updateSvc(this, 'TikTok Views', 1)">
+            <span class="service-name">TikTok Views</span><span class="service-price">1 = 1₮</span>
+        </div>
+    </div>
+
+    <label>4. ТОО ШИРХЭГ</label>
+    <input type="number" id="uCount" value="1000" oninput="calculate()">
+
+    <div class="price-box">
+        <div class="total-amt" id="totalText">7,000₮</div>
+        <div class="bonus-tag" id="bonusText">🎁 +100 БОНУС (10%)</div>
+    </div>
+
+    <button class="btn-order" onclick="sendOrder()">ЗАХИАЛГА ӨГӨХ</button>
+</div>
+
+<div class="bottom-nav">
+    <a href="tel:85330511" class="nav-link"><i class="fas fa-phone"></i> CALL US</a>
+    <a href="https://instagram.com/Arhat_0625" class="nav-link active"><i class="fab fa-instagram"></i> INSTAGRAM</a>
+</div>
+
+<div id="checkout-view">
+    <div class="qr-card"><img src="monpay_qr.jpg"></div>
+    <div style="width: 85%; background: #0f0f0f; padding: 20px; border-radius: 20px; border-left: 5px solid var(--neon);">
+        <p>MONPAY / ДАНС: <b style="color: var(--neon);">99106925689</b></p>
+        <p>ХҮЛЭЭН АВАГЧ: <b style="color: var(--neon);">Б.ХОС-ЭРДЭНЭ</b></p>
+    </div>
+    <button onclick="location.reload()" style="margin-top: 30px; background: #111; color: white; border: none; padding: 15px 40px; border-radius: 15px; cursor: pointer;">БУЦАХ</button>
+</div>
+
+<script>
+    let unitPrice = 7;
+    let serviceName = 'IG Followers';
+
+    function updateSvc(el, name, price) {
+        document.querySelectorAll('.service-item').forEach(i => i.classList.remove('active'));
+        el.classList.add('active');
+        unitPrice = price;
+        serviceName = name;
+        calculate();
+    }
+
+    function calculate() {
+        const count = document.getElementById('uCount').value || 0;
+        const total = count * unitPrice;
+        const bonus = Math.floor(count * 0.1);
+        document.getElementById('totalText').innerText = total.toLocaleString() + "₮";
+        document.getElementById('bonusText').innerText = `🎁 +${bonus.toLocaleString()} БОНУС (10%)`;
+    }
+
+    async function sendOrder() {
+        const link = document.getElementById('uLink').value;
+        const phone = document.getElementById('uPhone').value;
+        const count = document.getElementById('uCount').value;
+        const total = document.getElementById('totalText').innerText;
+        if(!link || !phone) { alert("Мэдээллээ бүрэн бөглөнө үү!"); return; }
+
+        const token = "8686350962:AAE-qTC97YHESmKDHxxq3Zx7pCGgnNxhUVQ";
+        const chat_id = "7069407872";
+        const msg = `🚀 ШИНЭ ЗАХИАЛГА!\n\n📞 Дугаар: ${phone}\n📦 Үйлчилгээ: ${serviceName}\n🔢 Тоо: ${count}\n💰 Нийт: ${total}\n🔗 Линк: ${link}`;
+
+        await fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(msg)}`);
+        document.getElementById('order-view').style.display = 'none';
+        document.getElementById('checkout-view').style.display = 'flex';
+    }
+</script>
+</body>
+</html>
