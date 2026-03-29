@@ -1,1 +1,154 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Store | Premium SMM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Чиний дуртай неон стиль энд хэвээрээ байна */
+        :root {
+            --neon-cyan: #00f2ff;
+            --neon-purple: #7000ff;
+            --bg-dark: #050505;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .header-section {
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .logo-box {
+            width: 130px;
+            height: 130px;
+            margin: 0 auto;
+            border-radius: 50%;
+            border: 3px solid var(--neon-cyan);
+            box-shadow: 0 0 20px var(--neon-cyan);
+            overflow: hidden;
+        }
+
+        .logo-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        .container {
+            width: 90%;
+            max-width: 450px;
+            background: #111;
+            padding: 30px;
+            border-radius: 25px;
+            border: 1px solid #222;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        h1 { color: var(--neon-cyan); text-transform: uppercase; letter-spacing: 2px; }
+
+        .service-option {
+            background: #1a1a1a;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 12px;
+            border-left: 5px solid var(--neon-purple);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .order-form { margin-top: 30px; }
+
+        input, select {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #222;
+            border: 1px solid #333;
+            color: white;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));
+            border: none;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 242, 255, 0.3);
+        }
+
+        .submit-btn:hover { transform: scale(1.02); box-shadow: 0 0 25px var(--neon-cyan); }
+    </style>
+</head>
+<body>
+
+    <div class="header-section">
+        <div class="logo-box">
+            <img src="logo.jpg" alt="Digital Store">
+        </div>
+        <h1>Digital Store</h1>
+        <p style="color: #666;">Premium SMM Solutions</p>
+    </div>
+
+    <div class="container">
+        <div class="order-form">
+            <input type="text" id="uName" placeholder="Таны нэр" required>
+            
+            <select id="uService">
+                <option value="FB Followers 1k">FB Followers (1k) - 7,000₮</option>
+                <option value="IG Followers 1k">IG Followers (1k) - 7,000₮</option>
+                <option value="TikTok Likes 1k">TikTok Likes (1k) - 6,000₮</option>
+            </select>
+            
+            <input type="text" id="uLink" placeholder="Сошиал линк (Линкээ тавих)" required>
+            
+            <button class="submit-btn" onclick="sendToTelegram()">ЗАХИАЛАХ</button>
+        </div>
+    </div>
+
+    <script>
+        function sendToTelegram() {
+            const name = document.getElementById('uName').value;
+            const service = document.getElementById('uService').value;
+            const link = document.getElementById('uLink').value;
+
+            if(!name || !link) {
+                alert("Мэдээллээ бүрэн бөглөнө үү!");
+                return;
+            }
+
+            // --- ЭНД ӨӨРИЙН МЭДЭЭЛЛЭЭ ТАВИАРАЙ ---
+            const token = "ЧИНИЙ_BOT_TOKEN_ЭНД"; 
+            const chat_id = "ЧИНИЙ_CHAT_ID_ЭНД";
+            // ------------------------------------
+
+            const text = `🚀 ШИНЭ ЗАХИАЛГА ИРЛЭЭ!\n\n👤 Нэр: ${name}\n📦 Үйлчилгээ: ${service}\n🔗 Линк: ${link}`;
+            
+            const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(text)}`;
+
+            fetch(url)
+                .then(response => {
+                    if(response.ok) {
+                        alert("Захиалга амжилттай илгээгдлээ! Төлбөрөө Monpay-ээр шилжүүлнэ үү.");
+                    } else {
+                        alert("Алдаа гарлаа. Дахин оролдоно уу.");
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
 
