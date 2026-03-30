@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+   <!DOCTYPE html>
 <html lang="mn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Digital Store - Master SMM</title>
+    <title>Digital Store - Premium SMM</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
@@ -34,8 +34,7 @@
         .input-group input { width: 100%; background: var(--input-bg); border: 1px solid transparent; padding: 18px 18px 18px 50px; border-radius: 18px; color: white; font-size: 14px; transition: 0.3s; }
         .input-group input:focus { border-color: var(--accent); outline: none; }
 
-        /* Үйлчилгээний жагсаалт */
-        .service-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; max-height: 300px; overflow-y: auto; padding-right: 5px; }
+        .service-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; max-height: 280px; overflow-y: auto; padding-right: 5px; }
         .service-list::-webkit-scrollbar { width: 2px; }
         .service-list::-webkit-scrollbar-thumb { background: var(--accent); }
 
@@ -44,7 +43,6 @@
         .node .name { font-weight: 700; font-size: 13px; }
         .node .price { color: var(--accent); font-family: 'Orbitron'; font-size: 10px; }
 
-        /* Тооцоолол */
         .calc-display { text-align: center; margin: 20px 0; }
         .main-total { font-family: 'Orbitron'; font-size: 48px; font-weight: 900; color: #fff; line-height: 1; }
         .summary-text { font-size: 11px; color: var(--text-gray); margin-top: 10px; font-weight: 600; }
@@ -52,14 +50,20 @@
         .bonus-tag span { color: var(--bonus-orange); font-size: 11px; font-weight: 800; }
 
         .btn-order { width: 100%; background: #fff; color: #000; border: none; padding: 22px; border-radius: 20px; font-size: 15px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.3s; }
-        .btn-order:active { transform: scale(0.96); }
 
-        /* Сэтгэгдэл */
+        /* REVIEWS */
+        .reviews-header { font-size: 10px; color: var(--text-gray); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; padding-left: 5px; }
         .review-card { background: var(--card); padding: 18px; border-radius: 22px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.03); }
         .rev-user { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px; font-weight: 800; color: var(--accent); }
         .rev-text { font-size: 11px; color: #99aab5; line-height: 1.5; }
 
-        /* Төлбөр */
+        /* CONTACT */
+        .contact-grid { display: flex; gap: 10px; margin-top: 20px; }
+        .c-box { flex: 1; background: var(--card); padding: 15px; border-radius: 18px; text-align: center; text-decoration: none; border: 1px solid rgba(255,255,255,0.03); }
+        .c-box p { font-size: 8px; color: var(--text-gray); text-transform: uppercase; margin-bottom: 5px; font-weight: 800; }
+        .c-box b { font-family: 'Orbitron'; font-size: 11px; color: var(--accent); }
+
+        /* CHECKOUT */
         #checkout { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 5000; display: none; flex-direction: column; align-items: center; padding: 40px 20px; overflow-y: auto; }
         .qr-card { background: white; padding: 20px; border-radius: 25px; margin-bottom: 25px; }
         .qr-card img { width: 220px; display: block; }
@@ -107,15 +111,15 @@
         <button class="btn-order" onclick="openPay()">Захиалга өгөх</button>
     </div>
 
-    <p style="font-size: 10px; color: var(--text-gray); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; padding-left: 5px;">Сэтгэгдэл</p>
+    <p class="reviews-header">Сэтгэгдэл</p>
     <div class="review-card">
         <div class="rev-user"><span>G***a</span> <div style="color:#ffcc00; font-size:10px;"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
-        <p class="rev-text">Хурдан бөгөөд найртай үйлчилгээтэй юм байна. Бонус нь ч яг орлоо!</p>
+        <p class="rev-text">Маш хурдан ордог юм байна. Бонус нь ч яг тоо ёсоороо нэмэгдсэн. Сэтгэл хангалуун байна!</p>
     </div>
 
-    <div class="review-card">
-        <div class="rev-user"><span>M***-Ochir</span> <div style="color:#ffcc00; font-size:10px;"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
-        <p class="rev-text">Итгэж болох газар. 3+1 урамшуулал нь их ашигтай байна.</p>
+    <div class="contact-grid">
+        <a href="tel:85330511" class="c-box"><p>Call Us</p><b>85330511</b></a>
+        <a href="https://instagram.com/Arhat_0625" target="_blank" class="c-box"><p>Instagram</p><b>@Arhat_0625</b></a>
     </div>
 </div>
 
@@ -152,11 +156,11 @@
     function showFile(i) { if(i.files.length > 0) { document.getElementById('file-name').innerText = "✅ " + i.files[0].name; document.getElementById('file-name').style.display = 'block'; } }
     function sendOrder() {
         if(document.getElementById('file-in').files.length === 0) return alert("Баримтаа хавсаргана уу!");
-        const msg = `💎 ШИНЭ ЗАХИАЛГА\n\nУтас: ${document.getElementById('ph').value}\nҮйлчилгээ: ${sName}\nToo: ${document.getElementById('qt').value}\nТөлбөр: ${document.getElementById('total').innerText}\nЛинк: ${document.getElementById('ln').value}`;
+        const msg = `💎 ШИНЭ ЗАХИАЛГА\n\nУтас: ${document.getElementById('ph').value}\nҮйлчилгээ: ${sName}\nToo: ${document.getElementById('qt').value}\nБонус: ${document.getElementById('b-text').innerText}\nТөлбөр: ${document.getElementById('total').innerText}\nЛинк: ${document.getElementById('ln').value}`;
         fetch(`https://api.telegram.org/bot8686350962:AAE-qTC97YHESmKDHxxq3Zx7pCGgnNxhUVQ/sendMessage?chat_id=7069407872&text=${encodeURIComponent(msg)}`);
         alert("Захиалга илгээгдлээ!"); location.reload();
     }
 </script>
 </body>
 </html>
-
+ 
