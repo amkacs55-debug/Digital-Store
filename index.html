@@ -1,1 +1,258 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Digital Store - Professional SMM</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #0b1114;
+            --card: #121a1d;
+            --accent: #00f2ff;
+            --input-bg: #162124;
+            --text-gray: #7d8b91;
+            --bonus-orange: #ff9d00;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg); color: white; display: flex; flex-direction: column; align-items: center; padding: 20px; min-height: 100vh; overflow-x: hidden; }
+
+        .container { width: 100%; max-width: 400px; padding-bottom: 50px; }
+
+        /* Header & Logo */
+        header { text-align: center; margin-bottom: 25px; margin-top: 10px; }
+        .logo { font-family: 'Orbitron'; font-size: 38px; letter-spacing: 5px; background: linear-gradient(to bottom, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; }
+        .sub-logo { font-size: 9px; letter-spacing: 3px; color: var(--text-gray); margin-top: 5px; font-weight: 800; text-transform: uppercase; }
+
+        /* Marketing: Timer */
+        .timer-box { background: linear-gradient(90deg, rgba(255, 157, 0, 0.05), rgba(255, 0, 0, 0.05)); border: 1px solid rgba(255, 157, 0, 0.2); border-radius: 18px; padding: 15px; text-align: center; margin-bottom: 20px; }
+        .timer-text { font-size: 9px; color: var(--bonus-orange); font-weight: 800; letter-spacing: 1px; margin-bottom: 8px; }
+        #countdown { font-family: 'Orbitron'; font-size: 22px; color: #fff; text-shadow: 0 0 10px rgba(255, 157, 0, 0.3); }
+
+        /* Main Card */
+        .card { background: var(--card); border-radius: 28px; padding: 25px 20px; border: 1px solid rgba(255,255,255,0.03); box-shadow: 0 25px 50px rgba(0,0,0,0.5); margin-bottom: 20px; }
+        .label { color: var(--accent); font-size: 11px; font-weight: 800; letter-spacing: 1px; margin-bottom: 12px; display: block; text-transform: uppercase; }
+
+        .input-group { position: relative; margin-bottom: 18px; }
+        .input-group i { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--text-gray); font-size: 16px; }
+        .input-group input { width: 100%; background: var(--input-bg); border: 1px solid transparent; padding: 18px 18px 18px 50px; border-radius: 18px; color: white; font-size: 14px; transition: 0.3s; }
+        .input-group input:focus { border-color: var(--accent); outline: none; }
+
+        /* Service List */
+        .service-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 25px; max-height: 280px; overflow-y: auto; padding-right: 5px; }
+        .service-list::-webkit-scrollbar { width: 2px; }
+        .service-list::-webkit-scrollbar-thumb { background: var(--accent); }
+
+        .node { background: var(--input-bg); padding: 16px 20px; border-radius: 18px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; border: 2px solid transparent; transition: 0.2s; }
+        .node.active { border-color: rgba(0, 242, 255, 0.4); background: rgba(0, 242, 255, 0.08); }
+        .node .name { font-weight: 700; font-size: 13px; }
+        .node .price { color: var(--accent); font-family: 'Orbitron'; font-size: 11px; }
+
+        /* Price Section */
+        .price-section { text-align: center; margin-bottom: 25px; }
+        .total-price { font-family: 'Orbitron'; font-size: 45px; font-weight: 900; color: #fff; }
+        .bonus-badge { background: rgba(255, 157, 0, 0.1); padding: 8px 15px; border-radius: 12px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgba(255, 157, 0, 0.2); }
+        .bonus-badge span { font-size: 11px; font-weight: 800; color: var(--bonus-orange); }
+
+        .btn-order { width: 100%; background: #fff; color: #000; border: none; padding: 22px; border-radius: 20px; font-size: 15px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.3s; }
+        .btn-order:active { transform: scale(0.96); }
+
+        /* Reviews */
+        .review-card { background: var(--glass); padding: 15px; border-radius: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.03); }
+        .review-user { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .user-name { font-size: 12px; font-weight: 800; color: var(--accent); }
+        .stars { color: #ffcc00; font-size: 10px; }
+        .review-text { font-size: 11px; color: #99aab5; line-height: 1.5; }
+
+        /* Contact Section */
+        .contact-grid { display: flex; gap: 10px; width: 100%; }
+        .c-box { flex: 1; background: var(--card); padding: 18px; border-radius: 22px; text-align: center; text-decoration: none; border: 1px solid rgba(255,255,255,0.03); }
+        .c-box p { font-size: 8px; color: var(--text-gray); text-transform: uppercase; margin-bottom: 5px; font-weight: 800; letter-spacing: 1px; }
+        .c-box b { font-family: 'Orbitron'; font-size: 12px; color: var(--accent); font-weight: 900; }
+
+        /* Checkout Modal */
+        #checkout { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 5000; display: none; flex-direction: column; align-items: center; padding: 40px 20px; overflow-y: auto; }
+        .checkout-header { font-family: 'Orbitron'; font-size: 14px; letter-spacing: 5px; margin-bottom: 30px; }
+        .qr-card { background: white; padding: 20px; border-radius: 25px; margin-bottom: 30px; box-shadow: 0 0 30px rgba(0, 242, 255, 0.15); }
+        .qr-card img { width: 220px; display: block; }
+        
+        .pay-details { width: 100%; text-align: left; padding: 0 10px; margin-bottom: 25px; }
+        .pay-details label { font-size: 10px; color: var(--text-gray); font-weight: 800; display: block; margin-bottom: 5px; }
+        .pay-details h3 { font-family: 'Orbitron'; font-size: 26px; color: var(--accent); margin-bottom: 15px; }
+        .pay-details h2 { font-size: 22px; font-weight: 800; }
+
+        /* Barimt Upload Area */
+        .upload-zone { width: 100%; background: rgba(0, 242, 255, 0.05); border: 2px dashed rgba(0, 242, 255, 0.2); border-radius: 20px; padding: 25px; text-align: center; margin-bottom: 25px; cursor: pointer; }
+        .upload-zone i { font-size: 28px; color: var(--accent); margin-bottom: 10px; display: block; }
+        .upload-zone span { font-size: 12px; font-weight: 800; color: #fff; }
+        #file-name { color: #00ff88; font-size: 10px; margin-top: 10px; display: none; font-weight: 800; }
+
+        /* Live Notif Popup */
+        #live-popup { position: fixed; bottom: 20px; left: 20px; background: rgba(18, 26, 29, 0.98); border: 1px solid var(--accent); padding: 12px 18px; border-radius: 15px; display: flex; align-items: center; gap: 12px; z-index: 6000; transform: translateX(-150%); transition: 0.5s; box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
+        #live-popup.show { transform: translateX(0); }
+    </style>
+</head>
+<body>
+
+<div id="live-popup">
+    <div style="width: 35px; height: 35px; background: var(--input-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent);">
+        <i class="fas fa-shopping-bag"></i>
+    </div>
+    <div>
+        <p id="pop-user" style="font-size: 10px; font-weight: 800; color: #fff;"></p>
+        <p id="pop-service" style="font-size: 9px; color: var(--accent);"></p>
+    </div>
+</div>
+
+<div class="container">
+    <header>
+        <div class="logo">DIGITAL<br>STORE</div>
+        <p class="sub-logo">Premium SMM Solutions</p>
+    </header>
+
+    <div class="timer-box">
+        <p class="timer-text">🔥 ОДОО ЗАХИАЛВАЛ +15% БОНУС ДУУСАХАД:</p>
+        <div id="countdown">02 : 45 : 10</div>
+    </div>
+
+    <div class="card">
+        <span class="label">1. Линк (Link)</span>
+        <div class="input-group"><i class="fa-solid fa-link"></i><input type="text" id="ln" placeholder="Линкээ оруулна уу"></div>
+
+        <span class="label">2. Холбогдох дугаар</span>
+        <div class="input-group"><i class="fa-solid fa-mobile-screen"></i><input type="number" id="ph" placeholder="Утасны дугаараа оруулна уу"></div>
+
+        <span class="label">3. Үйлчилгээ сонгох</span>
+        <div class="service-list">
+            <div class="node active" onclick="sel(this, 7000, 'IG Followers')"><div class="name">IG Followers</div><div class="price">1k = 7,000₮</div></div>
+            <div class="node" onclick="sel(this, 7000, 'FB Page Followers')"><div class="name">FB Page Followers</div><div class="price">1k = 7,000₮</div></div>
+            <div class="node" onclick="sel(this, 4000, 'FB Group Members')"><div class="name">FB Group Members</div><div class="price">1k = 4,000₮</div></div>
+            <div class="node" onclick="sel(this, 5000, 'IG Reel/Post Like')"><div class="name">IG Reel/Post Like</div><div class="price">1k = 5,000₮</div></div>
+            <div class="node" onclick="sel(this, 10000, 'FB Post Share')"><div class="name">FB Post Share</div><div class="price">1k = 10,000₮</div></div>
+            <div class="node" onclick="sel(this, 5000, 'FB Post Reaction')"><div class="name">FB Post Reaction</div><div class="price">1k = 5,000₮</div></div>
+            <div class="node" onclick="sel(this, 6000, 'TikTok Like')"><div class="name">TikTok Like</div><div class="price">1k = 6,000₮</div></div>
+            <div class="node" onclick="sel(this, 1000, 'TikTok Views')"><div class="name">TikTok Views</div><div class="price">1k = 1,000₮</div></div>
+        </div>
+
+        <span class="label">4. Тоо ширхэг</span>
+        <div class="input-group"><input type="number" id="qt" value="1000" oninput="calc()" style="padding-left: 20px;"></div>
+
+        <div class="price-section">
+            <div class="total-price" id="total">7,000₮</div>
+            <div class="bonus-badge"><span id="b-text">🎁 +100 БОНУС (10%)</span></div>
+        </div>
+
+        <button class="btn-order" onclick="order()">Захиалга өгөх</button>
+    </div>
+
+    <div class="review-card">
+        <div class="review-user">
+            <span class="user-name">G***a</span>
+            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+        </div>
+        <p class="review-text">Шуурхай үйлчилгээтэй юм байна. Баримтаа хавсаргаад л захиалга баталгаажчихлаа. Баярлалаа!</p>
+    </div>
+
+    <div class="contact-grid">
+        <a href="tel:85330511" class="c-box"><p>CALL US</p><b>85330511</b></a>
+        <a href="https://instagram.com/Arhat_0625" target="_blank" class="c-box"><p>INSTAGRAM</p><b>@Arhat_0625</b></a>
+    </div>
+</div>
+
+<div id="checkout">
+    <div class="checkout-header">CHECKOUT</div>
+    <div class="qr-card"><img src="orca-image-2014133490.jpeg.jpeg" alt="QR"></div>
+
+    <div class="pay-details">
+        <label>ДАНС / МОНПАЙ</label>
+        <h3>99106925689</h3>
+        <label>ХҮЛЭЭН АВАГЧ</label>
+        <h2>Б. ХОС-ЭРДЭНЭ</h2>
+    </div>
+
+    <div class="upload-zone" onclick="document.getElementById('file-in').click()">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <span>ГҮЙЛГЭЭНИЙ БАРИМТ ХАВСРАХ</span>
+        <input type="file" id="file-in" style="display: none;" onchange="updateFile(this)">
+        <p id="file-name"></p>
+    </div>
+
+    <button class="btn-order" onclick="finish()" style="background: var(--accent); color: #000;">Баримт илгээх</button>
+    <button onclick="location.reload()" style="background: none; border: none; color: #555; margin-top: 30px; font-weight: 800; cursor: pointer;">БУЦАХ</button>
+</div>
+
+<script>
+    let pricePer1k = 7000;
+    let sName = "IG Followers";
+
+    // 1. Timer Logic
+    function countdown() {
+        let time = 9910;
+        setInterval(() => {
+            let h = Math.floor(time / 3600);
+            let m = Math.floor((time % 3600) / 60);
+            let s = time % 60;
+            document.getElementById('countdown').innerText = `${h<10?'0'+h:h} : ${m<10?'0'+m:m} : ${s<10?'0'+s:s}`;
+            time--;
+            if(time < 0) time = 9910;
+        }, 1000);
+    }
+    countdown();
+
+    // 2. Live Notification
+    const users = ["Bat-Erdene", "Anuujin", "Munkh-Ochir", "Nomin", "Erdene"];
+    const orders = ["5,000 Followers авлаа", "1,000 Likes захиаллаа", "Бонус идэвхжлээ", "FB Group Members авлаа"];
+    setInterval(() => {
+        const pop = document.getElementById('live-popup');
+        document.getElementById('pop-user').innerText = users[Math.floor(Math.random()*users.length)] + "...";
+        document.getElementById('pop-service').innerText = orders[Math.floor(Math.random()*orders.length)];
+        pop.classList.add('show');
+        setTimeout(() => pop.classList.remove('show'), 4000);
+    }, 12000);
+
+    function sel(el, p, n) {
+        document.querySelectorAll('.node').forEach(x => x.classList.remove('active'));
+        el.classList.add('active');
+        pricePer1k = p; sName = n;
+        calc();
+    }
+
+    function calc() {
+        const q = parseInt(document.getElementById('qt').value) || 0;
+        const total = (q / 1000) * pricePer1k;
+        document.getElementById('total').innerText = Math.floor(total).toLocaleString() + "₮";
+        let bonus = (q >= 3000) ? Math.floor(q / 3000) * 1000 : Math.floor(q * 0.1);
+        document.getElementById('b-text').innerText = (q >= 3000) ? `🔥 +${bonus.toLocaleString()} EXTRA BONUS` : `🎁 +${bonus.toLocaleString()} БОНУС (10%)`;
+    }
+
+    function order() {
+        if(!document.getElementById('ph').value || !document.getElementById('ln').value) return alert("Мэдээллээ бүрэн оруулна уу!");
+        document.getElementById('checkout').style.display = 'flex';
+        window.scrollTo(0,0);
+    }
+
+    function updateFile(input) {
+        if(input.files.length > 0) {
+            const p = document.getElementById('file-name');
+            p.innerText = "✅ " + input.files[0].name;
+            p.style.display = 'block';
+        }
+    }
+
+    function finish() {
+        if(document.getElementById('file-in').files.length === 0) return alert("Баримтаа хавсаргана уу!");
+        const ph = document.getElementById('ph').value;
+        const msg = `💎 ШИНЭ ЗАХИАЛГА\nУтас: ${ph}\nҮйлчилгээ: ${sName}\nТөлбөр: ${document.getElementById('total').innerText}`;
+        fetch(`https://api.telegram.org/bot8686350962:AAE-qTC97YHESmKDHxxq3Zx7pCGgnNxhUVQ/sendMessage?chat_id=7069407872&text=${encodeURIComponent(msg)}`);
+        alert("Захиалга амжилттай хүлээн авлаа!");
+        location.reload();
+    }
+</script>
+</body>
+</html>
 
