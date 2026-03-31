@@ -1,1 +1,187 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Digital Store - Premium SMM</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --bg: #0b1114; --card: #121a1d; --accent: #00f2ff; --input-bg: #162124; --text-gray: #7d8b91; --bonus: #ff9d00; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); color: white; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 100%; max-width: 400px; }
+        
+        header { text-align: center; margin-top: 20px; margin-bottom: 30px; }
+        .logo { font-size: 34px; font-weight: 900; letter-spacing: 5px; color: var(--accent); }
+        .sub-logo { font-size: 10px; color: var(--text-gray); letter-spacing: 2px; margin-top: 5px; }
+
+        .card { background: var(--card); border-radius: 28px; padding: 25px 20px; border: 1px solid rgba(255,255,255,0.03); margin-bottom: 15px; }
+        .label { font-size: 11px; color: var(--accent); font-weight: 800; margin-bottom: 12px; display: block; }
+        
+        input { width: 100%; padding: 18px; background: var(--input-bg); border: 1px solid #333; color: white; border-radius: 18px; margin-bottom: 18px; font-size: 15px; }
+        input::placeholder { color: #444; }
+
+        .service-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .node { background: var(--input-bg); padding: 16px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; border: 2px solid transparent; transition: 0.2s; }
+        .node.active { border-color: var(--accent); background: rgba(0, 242, 255, 0.08); }
+        .node span { font-size: 15px; font-weight: 600; }
+        .node .price { color: var(--accent); font-weight: 800; font-size: 13px; }
+
+        .total-box { text-align: center; margin-bottom: 25px; }
+        #total-price { font-size: 45px; font-weight: 900; color: white; }
+        .bonus-tag { color: var(--bonus); font-size: 13px; font-weight: bold; margin-top: 8px; }
+        .desc-p { color: var(--text-gray); font-size: 12px; margin-top: 5px; }
+
+        .btn-order { width: 100%; padding: 22px; border-radius: 22px; border: none; background: white; color: black; font-weight: 900; cursor: pointer; font-size: 16px; text-transform: uppercase; }
+
+        /* Review Section */
+        .reviews { margin-top: 20px; padding: 10px; }
+        .review-card { margin-top: 15px; border-top: 1px solid #222; padding-top: 15px; }
+        .stars { color: var(--bonus); font-size: 12px; }
+
+        /* Checkout Layer */
+        #checkout { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 9999; display: none; flex-direction: column; align-items: center; padding: 40px 20px; overflow-y: auto; }
+        #qrcode { background: white; padding: 12px; border-radius: 22px; margin-bottom: 30px; }
+        .copy-item { width: 100%; background: var(--card); padding: 20px; border-radius: 22px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #222; cursor: pointer; }
+
+        .bank-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; width: 100%; margin-top: 20px; }
+        .bank-btn { text-align: center; cursor: pointer; }
+        .bank-icon { height: 55px; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; color: white; }
+
+        .footer-info { display: flex; justify-content: space-between; width: 100%; margin-top: 30px; border-top: 1px solid #222; padding-top: 20px; }
+        .f-col { text-align: center; width: 50%; }
+        .f-col p { font-size: 10px; color: var(--text-gray); margin-bottom: 5px; }
+        .f-col b { font-size: 14px; color: var(--accent); }
+    </style>
+</head>
+<body>
+
+<div class="container" id="main">
+    <header>
+        <div class="logo">DIGITAL STORE</div>
+        <div class="sub-logo">PREMIUM SMM SOLUTIONS</div>
+    </header>
+
+    <div class="card">
+        <span class="label">1. ЛИНК (LINK)</span>
+        <input type="text" id="link" placeholder="Линкээ оруулна уу">
+        
+        <span class="label">2. ХОЛБОГДОХ ДУГААР</span>
+        <input type="number" id="phone" value="85330511">
+
+        <span class="label">3. ҮЙЛЧИЛГЭЭ СОНГОХ</span>
+        <div class="service-list">
+            <div class="node active" onclick="sel(this, 7000, 'IG Followers')"><span>IG Followers</span><span class="price">1k = 7k₮</span></div>
+            <div class="node" onclick="sel(this, 5000, 'IG Like')"><span>IG Like</span><span class="price">1k = 5k₮</span></div>
+            <div class="node" onclick="sel(this, 4000, 'FB Group')"><span>FB Group</span><span class="price">1k = 4k₮</span></div>
+            <div class="node" onclick="sel(this, 12000, 'FB Share')"><span>FB Share</span><span class="price">1k = 12k₮</span></div>
+            <div class="node" onclick="sel(this, 1000, 'TikTok Views')"><span>TikTok Views</span><span class="price">1k = 1k₮</span></div>
+        </div>
+
+        <span class="label">4. ТОО ШИРХЭГ</span>
+        <input type="number" id="qty" value="1000" oninput="calc()">
+
+        <div class="total-box">
+            <div id="total-price">7,000₮</div>
+            <p class="desc-p" id="summary">Та 1,000 ширхэг IG Followers захиалж байна.</p>
+            <div class="bonus-tag" id="bonus-info">+100 БОНУС (10%)</div>
+        </div>
+
+        <button class="btn-order" onclick="openPayment()">ЗАХИАЛГА ӨГӨХ</button>
+    </div>
+
+    <div class="reviews">
+        <p class="label">СЭТГЭГДЭЛ</p>
+        <div class="review-card">
+            <p style="font-size:13px;">G***a <span class="stars">★★★★★</span></p>
+            <p style="font-size:11px; color:var(--text-gray); margin-top:5px;">Маш хурдан ордог юм байна. Бонус нь ч яг тоо ёсоороо нэмэгдсэн. Сэтгэл хангалуун байна!</p>
+        </div>
+    </div>
+
+    <div class="footer-info">
+        <div class="f-col"><p>CALL US</p><b>85330511</b></div>
+        <div class="f-col"><p>INSTAGRAM</p><b>@arhat_0625</b></div>
+    </div>
+</div>
+
+<div id="checkout">
+    <p style="color:var(--accent); font-weight:800; letter-spacing:2px; margin-bottom:25px;">PAYMENT TERMINAL</p>
+    <div id="qrcode"></div>
+
+    <div class="copy-item" onclick="copyJump('99106925689', 'khan')">
+        <div><p style="font-size:10px; color:var(--text-gray);">ДАНС (ХААН БАНК)</p><h2 style="font-size:20px;">99106925689</h2></div>
+        <i class="fa-solid fa-copy" style="color:var(--accent);"></i>
+    </div>
+
+    <div class="copy-item" onclick="copyVal()">
+        <div><p style="font-size:10px; color:var(--text-gray);">ГҮЙЛГЭЭНИЙ УТГА</p><h2 id="final-desc" style="font-size:20px; color:var(--bonus);"></h2></div>
+        <i class="fa-solid fa-copy" style="color:var(--bonus);"></i>
+    </div>
+
+    <div class="bank-grid">
+        <div class="bank-btn" onclick="jump('khan')"><div class="bank-icon" style="background:#006b52;">K</div><p style="font-size:9px; margin-top:5px;">KHAN</p></div>
+        <div class="bank-btn" onclick="jump('monpay')"><div class="bank-icon" style="background:#e20020;">MP</div><p style="font-size:9px; margin-top:5px;">MONPAY</p></div>
+        <div class="bank-btn" onclick="jump('qpay')"><div class="bank-icon" style="background:#f32d2d;">QP</div><p style="font-size:9px; margin-top:5px;">QPAY</p></div>
+        <div class="bank-btn" onclick="jump('state')"><div class="bank-icon" style="background:#ffcc00; color:black;">S</div><p style="font-size:9px; margin-top:5px;">STATE</p></div>
+    </div>
+    
+    <button onclick="location.reload()" style="background:none; border:none; color:#444; margin-top:40px; font-weight:bold; cursor:pointer;">БУЦАХ</button>
+</div>
+
+<script>
+    let p1k = 7000; let sName = "IG Followers"; let total = 7000;
+
+    function sel(el, p, n) {
+        document.querySelectorAll('.node').forEach(x => x.classList.remove('active'));
+        el.classList.add('active'); p1k = p; sName = n; calc();
+    }
+
+    function calc() {
+        let q = parseInt(document.getElementById('qty').value) || 0;
+        total = (q / 1000) * p1k;
+        document.getElementById('total-price').innerText = Math.floor(total).toLocaleString() + "₮";
+        document.getElementById('summary').innerText = `Та ${q.toLocaleString()} ширхэг ${sName} захиалж байна.`;
+        let b = (q >= 3000) ? Math.floor(q/3000)*1000 : Math.floor(q*0.1);
+        document.getElementById('bonus-info').innerText = (q >= 3000) ? `+${b.toLocaleString()} EXTRA БОНУС (3+1)` : `+${b.toLocaleString()} БОНУС (10%)`;
+    }
+
+    function openPayment() {
+        const ph = document.getElementById('phone').value;
+        const ln = document.getElementById('link').value;
+        if(!ph || !ln) { Swal.fire('Алдаа', 'Мэдээллээ бүрэн оруулна уу', 'error'); return; }
+        
+        document.getElementById('final-desc').innerText = ph;
+        document.getElementById('main').style.display = 'none';
+        document.getElementById('checkout').style.display = 'flex';
+        
+        document.getElementById('qrcode').innerHTML = "";
+        new QRCode(document.getElementById("qrcode"), { text: `99106925689|${ph}`, width: 170, height: 170 });
+    }
+
+    function copyJump(txt, bank) {
+        navigator.clipboard.writeText(txt);
+        Swal.fire({ title: 'Хуулагдлаа', text: 'Апп руу үсэрч байна...', icon: 'success', timer: 1200, showConfirmButton: false });
+        setTimeout(() => jump(bank), 1200);
+    }
+
+    function copyVal() {
+        navigator.clipboard.writeText(document.getElementById('final-desc').innerText);
+        Swal.fire({ title: 'Утга хуулагдлаа', icon: 'success', timer: 1000, showConfirmButton: false });
+    }
+
+    function jump(bank) {
+        const acc = "99106925689";
+        const d = document.getElementById('final-desc').innerText;
+        let url = "";
+        if(bank === 'khan') url = `intent://transfer?to_account=${acc}&amount=${total}&description=${d}#Intent;scheme=khanbank;package=com.itools.khanbank;end`;
+        else if(bank === 'monpay') url = `intent://transfer?to=${acc}&amount=${total}&note=${d}#Intent;scheme=monpay;package=com.mobi.monpay;end`;
+        else if(bank === 'state') url = `intent://transfer?account=${acc}&amount=${total}&description=${d}#Intent;scheme=statebank;package=mn.statebank.mobile;end`;
+        else url = `intent://#Intent;scheme=qpay;package=mn.itools.qpay;end`;
+        window.location.href = url;
+    }
+</script>
+</body>
+</html>
 
