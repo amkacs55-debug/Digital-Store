@@ -1,1 +1,201 @@
 
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Store - Premium SMM</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --bg: #0b0e11; --card: #15191e; --accent: #00f2ff; --monpay: #ed1c24; --ok: #00d26a; --text: #ffffff; }
+        body { background: var(--bg); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; padding: 15px; overflow-x: hidden; }
+        .app { max-width: 440px; margin: 0 auto; }
+        
+        header { text-align: center; margin-bottom: 25px; padding-top: 10px; }
+        header h1 { font-weight: 800; font-size: 26px; color: var(--accent); text-shadow: 0 0 20px rgba(0, 242, 255, 0.3); margin: 0; }
+        header p { font-size: 10px; opacity: 0.6; text-transform: uppercase; letter-spacing: 2px; }
+
+        .card { background: var(--card); border: 1px solid rgba(255,255,255,0.05); border-radius: 28px; padding: 22px; margin-bottom: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.4); }
+        .step { display: none; animation: slideUp 0.4s ease; }
+        .step.active { display: block; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        label { display: block; font-size: 10px; font-weight: 700; color: #8b949e; margin-bottom: 8px; text-transform: uppercase; padding-left: 5px; }
+        input { width: 100%; padding: 16px; background: #0b0e11; border: 1px solid #23282e; border-radius: 16px; color: white; font-size: 14px; margin-bottom: 18px; outline: none; box-sizing: border-box; transition: 0.3s; }
+        input:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(0, 242, 255, 0.1); }
+
+        /* Scrollable Service List */
+        .scroll-list { max-height: 280px; overflow-y: auto; background: #0b0e11; border: 1px solid #23282e; border-radius: 18px; padding: 5px 0; margin-bottom: 20px; }
+        .scroll-list::-webkit-scrollbar { width: 5px; }
+        .scroll-list::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+
+        .group-label { font-size: 11px; font-weight: 800; color: #444; padding: 12px 15px 5px; text-transform: uppercase; }
+        .service-item { padding: 14px 15px; border-bottom: 1px solid rgba(255,255,255,0.03); display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.2s; }
+        .service-item span { font-size: 13px; color: #ccc; }
+        .service-item .radio { width: 16px; height: 16px; border: 2px solid #333; border-radius: 50%; position: relative; }
+        .service-item.selected { background: rgba(0, 242, 255, 0.05); }
+        .service-item.selected span { color: var(--accent); font-weight: 600; }
+        .service-item.selected .radio { border-color: var(--accent); }
+        .service-item.selected .radio::after { content: ''; position: absolute; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; top: 3px; left: 3px; box-shadow: 0 0 8px var(--accent); }
+
+        .total-box { text-align: center; margin: 20px 0; padding: 15px; background: rgba(0, 242, 255, 0.03); border-radius: 20px; border: 1px dashed rgba(0, 242, 255, 0.2); }
+        
+        .btn { width: 100%; padding: 18px; border-radius: 20px; border: none; font-weight: 700; cursor: pointer; font-size: 15px; transition: 0.3s; display: block; text-decoration: none; text-align: center; }
+        .btn-main { background: var(--accent); color: #000; margin-top: 10px; }
+        .btn-pay { background: #1c2128; color: white; border: 1px solid #333; margin-bottom: 12px; }
+        .btn-success { background: var(--ok); color: white; margin-top: 15px; }
+
+        .copy-box { background: #0b0e11; padding: 15px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; cursor: pointer; border: 1px solid #1c2128; }
+        .copy-box:active { background: #15191e; }
+        .copy-box b { color: var(--accent); font-size: 14px; }
+
+        .footer-nav { display: flex; justify-content: space-around; margin-top: 30px; padding-top: 15px; border-top: 1px solid #1c2128; }
+        .footer-nav a { color: #8b949e; text-decoration: none; font-size: 18px; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .footer-nav a span { font-size: 9px; font-weight: 800; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+
+<div class="app">
+    <header><h1>DIGITAL STORE</h1><p>Premium SMM Solutions</p></header>
+
+    <div id="step1" class="step active">
+        <div class="card">
+            <label>Хүлээх авах линк (URL)</label>
+            <input type="text" id="url" placeholder="https://instagram.com/user...">
+            
+            <label>Холбогдох утас</label>
+            <input type="number" id="phone" value="85330511">
+
+            <label>Үйлчилгээ сонгох (Scroll)</label>
+            <div class="scroll-list" id="service-list">
+                <div class="group-label">Instagram</div>
+                <div class="service-item selected" onclick="select(this, 7, 'Instagram Followers')"><span>Followers (1ш = 7₮)</span><div class="radio"></div></div>
+                <div class="service-item" onclick="select(this, 5, 'Instagram Reel Like')"><span>Reel Like (1ш = 5₮)</span><div class="radio"></div></div>
+                <div class="service-item" onclick="select(this, 1, 'Instagram Views')"><span>Views (1ш = 1₮)</span><div class="radio"></div></div>
+                
+                <div class="group-label">Facebook</div>
+                <div class="service-item" onclick="select(this, 7.5, 'FB Page Followers')"><span>Page Followers (1ш = 7.5₮)</span><div class="radio"></div></div>
+                <div class="service-item" onclick="select(this, 4, 'FB Group Members')"><span>Group Members (1ш = 4₮)</span><div class="radio"></div></div>
+                
+                <div class="group-label">TikTok</div>
+                <div class="service-item" onclick="select(this, 8.5, 'TikTok Followers')"><span>TikTok Followers (1ш = 8.5₮)</span><div class="radio"></div></div>
+                <div class="service-item" onclick="select(this, 4, 'TikTok Like')"><span>TikTok Like (1ш = 4₮)</span><div class="radio"></div></div>
+            </div>
+
+            <label>Тоо ширхэг (Custom)</label>
+            <input type="number" id="count" value="1000" min="100" oninput="calc()">
+
+            <div class="total-box">
+                <span style="font-size: 10px; color: #8b949e; display: block;">НИЙТ ТӨЛБӨР</span>
+                <span id="total_display" style="font-size: 32px; font-weight: 800; color: var(--accent);">7,000₮</span>
+            </div>
+
+            <button class="btn btn-main" onclick="go(2)">ЗАХИАЛГА ӨГӨХ</button>
+        </div>
+    </div>
+
+    <div id="step2" class="step">
+        <div class="card">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <span style="font-size: 11px; font-weight: 800; color: var(--monpay); letter-spacing: 1px;">MONPAY / QPAY УНШУУЛАХ</span><br>
+                <div style="background: white; padding: 12px; border-radius: 24px; display: inline-block; margin-top: 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
+                    <img src="https://github.com/amkacs55-debug/Digital-Store/blob/main/orca-image-653564277.jpeg.jpeg?raw=true" style="width: 190px; height: 190px; border-radius: 12px; display: block;">
+                </div>
+            </div>
+
+            <div class="copy-box" onclick="copy('99106925689', 'Дансны дугаар хуулагдлаа')">
+                <div><span style="font-size: 10px; color: #8b949e;">MOBIFINANCE / Б. ХОС-ЭРДЭНЭ</span><br><b>99106925689</b></div>
+                <i class="fa-regular fa-copy" style="color: var(--accent);"></i>
+            </div>
+            
+            <div class="copy-box" onclick="copy(document.getElementById('phone').value, 'Утга хуулагдлаа')">
+                <div><span style="font-size: 10px; color: #8b949e;">ГҮЙЛГЭЭНИЙ УТГА</span><br><b id="copy-phone">...</b></div>
+                <i class="fa-regular fa-copy" style="color: var(--accent);"></i>
+            </div>
+
+            <button class="btn btn-pay" id="file-btn" onclick="document.getElementById('file-in').click()">📷 БАРИМТ ХАВСАРГАХ</button>
+            <input type="file" id="file-in" style="display:none" onchange="fileSel()">
+            
+            <button class="btn btn-success" onclick="send()">ТӨЛБӨР ИЛГЭЭХ</button>
+            <p style="text-align:center; font-size:12px; color:#555; margin-top:15px; cursor:pointer;" onclick="go(1)">← Буцах</p>
+        </div>
+    </div>
+
+    <div id="step3" class="step">
+        <div class="card" style="text-align: center; padding: 40px 20px;">
+            <div style="font-size: 50px; margin-bottom: 20px;">✅</div>
+            <h2 style="color: var(--ok); margin: 0;">АМЖИЛТТАЙ!</h2>
+            <p style="font-size: 13px; color: #8b949e; margin-top: 10px;">Баримт илгээгдлээ. Бид удахгүй холбогдох болно.</p>
+            <button class="btn btn-main" style="margin-top: 30px;" onclick="location.reload()">ШИНЭ ЗАХИАЛГА</button>
+            <p style="margin-top: 20px; color: var(--accent); font-weight: 800; font-size: 12px;">Манайхаар үйлчлүүлсэнд баярлалаа хөөрхөнөө ✨</p>
+        </div>
+    </div>
+
+    <div class="footer-nav">
+        <a href="https://t.me/digital_fanshop"><i class="fa-brands fa-telegram"></i><span>Telegram</span></a>
+        <a href="https://instagram.com/digital_fanshop"><i class="fa-brands fa-instagram"></i><span>Instagram</span></a>
+        <a href="tel:85330511"><i class="fa-solid fa-headset"></i><span>85330511</span></a>
+    </div>
+</div>
+
+<script>
+    const token = "8686350962:AAE-qTC97YHESmKDHxxq3Zx7pCGgnNxhUVQ";
+    const chat_id = "7069407872";
+    let currentPrice = 7, currentName = "Instagram Followers";
+
+    function select(el, p, n) {
+        document.querySelectorAll('.service-item').forEach(i => i.classList.remove('selected'));
+        el.classList.add('selected');
+        currentPrice = p; currentName = n; calc();
+    }
+
+    function calc() {
+        let c = parseInt(document.getElementById('count').value) || 0;
+        document.getElementById('total_display').innerText = (c * currentPrice).toLocaleString() + "₮";
+    }
+
+    function go(n) {
+        if(n===2 && (!document.getElementById('url').value || !document.getElementById('phone').value)) {
+            return Swal.fire({ icon: 'error', title: 'Мэдээлэл дутуу!', background: '#15191e', color: '#fff' });
+        }
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+        document.getElementById('step'+n).classList.add('active');
+        if(n===2) document.getElementById('copy-phone').innerText = document.getElementById('phone').value;
+    }
+
+    function copy(t, m) {
+        navigator.clipboard.writeText(t);
+        Swal.fire({ title: 'Амжилттай хуулагдлаа', text: m, timer: 1200, showConfirmButton: false, background: '#15191e', color: '#fff' });
+    }
+
+    function fileSel() { 
+        const btn = document.getElementById('file-btn');
+        btn.innerText = "✅ БАРИМТ ХАВСАРГАЛАА"; 
+        btn.style.background = "rgba(0, 210, 106, 0.1)";
+        btn.style.borderColor = "var(--ok)";
+        btn.style.color = "var(--ok)";
+    }
+
+    async function send() {
+        const file = document.getElementById('file-in').files[0];
+        if(!file) return Swal.fire({ title: 'Баримт хавсаргана уу!', icon: 'warning', background: '#15191e', color: '#fff' });
+        
+        Swal.fire({ title: 'Илгээж байна...', didOpen: () => Swal.showLoading(), background: '#15191e', color: '#fff' });
+        
+        const msg = `🚀 *ШИНЭ ЗАХИАЛГА*\n\n🔗 *URL:* ${document.getElementById('url').value}\n📞 *Утас:* ${document.getElementById('phone').value}\n🛠 *Үйлчилгээ:* ${currentName}\n🔢 *Тоо:* ${document.getElementById('count').value}ш\n💰 *Дүн:* ${document.getElementById('total_display').innerText}\n🏦 *Төлбөр:* MobiFinance`;
+        
+        const fd = new FormData(); fd.append('chat_id', chat_id); fd.append('photo', file); fd.append('caption', msg); fd.append('parse_mode', 'Markdown');
+        
+        try {
+            const res = await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, { method: 'POST', body: fd });
+            if(res.ok) go(3); else throw new Error();
+        } catch (e) { Swal.fire('Алдаа гарлаа!'); }
+        Swal.close();
+    }
+    calc();
+</script>
+</body>
+</html>
