@@ -1,1 +1,183 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Store - Premium SMM</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        :root { --bg: #0d1117; --card: #161b22; --accent: #00f2ff; --ok: #238636; --in: #0d1117; }
+        body { background: var(--bg); color: white; font-family: 'Inter', sans-serif; margin: 0; padding: 15px; }
+        .container { max-width: 450px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 25px; }
+        h1 { color: var(--accent); letter-spacing: 2px; text-shadow: 0 0 15px rgba(0, 242, 255, 0.4); margin: 0; }
+        .step { display: none; animation: fadeIn 0.4s; }
+        .step.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .card { background: var(--card); padding: 20px; border-radius: 20px; border: 1px solid #30363d; margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-size: 11px; color: #8b949e; font-weight: bold; }
+        input, select, textarea { width: 100%; padding: 15px; background: var(--in); border: 1px solid #30363d; border-radius: 12px; color: white; box-sizing: border-box; outline: none; margin-bottom: 15px; }
+        
+        .bonus-badge { background: rgba(0, 242, 255, 0.1); border: 1px dashed var(--accent); padding: 10px; border-radius: 10px; text-align: center; color: var(--accent); font-size: 13px; margin-bottom: 15px; }
+        
+        .btn { width: 100%; padding: 16px; border-radius: 14px; border: none; font-weight: bold; cursor: pointer; font-size: 14px; transition: 0.3s; }
+        .btn-main { background: var(--accent); color: #000; }
+        .btn-pay { background: var(--ok); color: white; }
+        
+        .info-box { background: var(--in); padding: 12px; border-radius: 10px; border: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; cursor: pointer; margin-bottom: 10px; }
+        .qr-area { text-align: center; padding: 15px; }
+        .qr-area img { width: 180px; border: 5px solid white; border-radius: 12px; }
+
+        .contact-us { display: flex; justify-content: center; gap: 15px; padding-top: 20px; border-top: 1px solid #30363d; }
+        .contact-us a { color: var(--accent); text-decoration: none; font-size: 12px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header><h1>DIGITAL STORE</h1></header>
+
+    <div id="step1" class="step active">
+        <div class="card">
+            <label>ХҮЛЭЭН АВАХ ЛИНК (URL)</label>
+            <input type="text" id="url" placeholder="https://instagram.com/...">
+            
+            <label>ХОЛБОГДОХ УТАС</label>
+            <input type="number" id="phone" placeholder="88******">
+            
+            <label>ҮЙЛЧИЛГЭЭ СОНГОХ</label>
+            <select id="service" onchange="updateTotal()">
+                <optgroup label="Instagram">
+                    <option value="7">Followers (1ш = 7₮)</option>
+                    <option value="5">Reel Like (1ш = 5₮)</option>
+                </optgroup>
+                <optgroup label="Facebook">
+                    <option value="7.5">Page Followers (1ш = 7.5₮)</option>
+                    <option value="4">Group Members (1ш = 4₮)</option>
+                </optgroup>
+                <optgroup label="TikTok">
+                    <option value="8.5">Followers (1ш = 8.5₮)</option>
+                </optgroup>
+            </select>
+
+            <label>ТОО ШИРХЭГ (МИН 100)</label>
+            <input type="number" id="amount" value="1000" min="100" oninput="updateTotal()">
+            
+            <div id="bonus-info" class="bonus-badge">Урамшуулал: +0 бонус</div>
+            <div style="text-align:center; font-weight:bold; color:var(--accent); font-size:20px; margin-bottom:15px;">НИЙТ: <span id="total_val">7,000</span>₮</div>
+            
+            <button class="btn btn-main" onclick="goStep(2)">ЗАХИАЛГА ӨГӨХ</button>
+        </div>
+    </div>
+
+    <div id="step2" class="step">
+        <div class="card">
+            <div class="qr-area">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=99106925689" id="qr-img">
+                <p style="font-size:10px; color:#8b949e; margin-top:10px;">QPAY / MONPAY УНШУУЛАХ</p>
+            </div>
+            
+            <div class="info-box" onclick="copy('99106925689', 'Данс амжилттай хуулагдлаа')">
+                <span>ХААН: <b>99106925689</b></span> 📋
+            </div>
+            <div class="info-box" onclick="copy(document.getElementById('phone').value, 'Утга амжилттай хуулагдлаа')">
+                <span>УТГА: <b id="copy_phone">...</b></span> 📋
+            </div>
+            <div class="info-box" style="border-color:var(--accent); color:var(--accent);">
+                <span>ДҮН: <b id="copy_total">0</b>₮</span>
+            </div>
+
+            <button class="btn" style="background:#1c2128; color:white; margin-bottom:10px;" onclick="window.location.href='khanbank://'">🏦 KHAN BANK НЭЭХ</button>
+            
+            <input type="file" id="file" style="display:none" onchange="fileOk()">
+            <button class="btn" style="background:#222; border:1px dashed #444;" onclick="document.getElementById('file').click()" id="file_btn">📷 БАРИМТ ХАВСАРГАХ</button>
+            
+            <button class="btn btn-pay" style="margin-top:15px;" onclick="submitOrder()">ТӨЛБӨР ИЛГЭЭХ</button>
+            <p style="text-align:center; font-size:12px; color:#555; margin-top:15px; cursor:pointer;" onclick="goStep(1)">← Буцах</p>
+        </div>
+    </div>
+
+    <div id="step3" class="step">
+        <div class="card" style="text-align:center;">
+            <h2 style="color:var(--accent);">АМЖИЛТТАЙ! ✅</h2>
+            <p style="font-size:12px; color:#8b949e;">Сэтгэгдлээ үлдээгээрэй.</p>
+            <textarea id="comment" placeholder="Манай үйлчилгээ танд таалагдсан уу?"></textarea>
+            <button class="btn btn-main" onclick="sendComment()">СЭТГЭГДЭЛ ИЛГЭЭХ</button>
+            <p style="margin-top:20px; color:var(--accent); font-weight:bold;">Манайхаар үйлчлүүлсэнд баярлалаа хөөрхөнөө ✨</p>
+        </div>
+    </div>
+
+    <div class="contact-us">
+        <a href="https://t.me/digital_fanshop">✈️ TELEGRAM</a>
+        <a href="https://instagram.com/digital_fanshop">📸 INSTAGRAM</a>
+        <a href="tel:89773973">📞 CONTACT US</a>
+    </div>
+</div>
+
+<script>
+    const token = "8686350962:AAE-qTC97YHESmKDHxxq3Zx7pCGgnNxhUVQ";
+    const chat_id = "7069407872";
+
+    function updateTotal() {
+        let amt = parseInt(document.getElementById('amount').value) || 0;
+        if(amt < 100) amt = 100;
+        const price = parseFloat(document.getElementById('service').value);
+        
+        let bonus = 0;
+        if(amt >= 8000) bonus = 3000;
+        else if(amt >= 6000) bonus = 2000;
+        else if(amt >= 3000) bonus = 1000;
+
+        const total = (amt * price).toLocaleString();
+        document.getElementById('total_val').innerText = total;
+        document.getElementById('copy_total').innerText = total;
+        document.getElementById('bonus-info').innerText = `Урамшуулал: +${bonus.toLocaleString()} бонус`;
+        return { total, bonus, amt };
+    }
+
+    function goStep(n) {
+        if(n === 2 && (!document.getElementById('url').value || !document.getElementById('phone').value)) {
+            return Swal.fire({ icon: 'error', title: 'Мэдээлэл дутуу!', background: '#161b22', color: '#fff' });
+        }
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+        document.getElementById('step' + n).classList.add('active');
+        if(n === 2) document.getElementById('copy_phone').innerText = document.getElementById('phone').value;
+    }
+
+    function copy(t, m) {
+        navigator.clipboard.writeText(t);
+        Swal.fire({ title: m, timer: 1000, showConfirmButton: false, background: '#161b22', color: '#fff' });
+    }
+
+    function fileOk() {
+        document.getElementById('file_btn').innerText = "✅ БАРИМТ ХАВСАРГАЛАА";
+        document.getElementById('file_btn').style.borderColor = "var(--accent)";
+    }
+
+    async function submitOrder() {
+        const file = document.getElementById('file').files[0];
+        if(!file) return Swal.fire('Баримтаа хавсаргана уу!');
+        Swal.fire({ title: 'Илгээж байна...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        
+        const info = updateTotal();
+        const cap = `🚀 *ШИНЭ ЗАХИАЛГА*\n\n🔗 *URL:* ${document.getElementById('url').value}\n📞 *Утас:* ${document.getElementById('phone').value}\n🛠 *Үйлчилгээ:* ${document.getElementById('service').selectedOptions[0].text}\n🔢 *Тоо:* ${info.amt}ш\n🎁 *Бонус:* +${info.bonus}ш\n💰 *Дүн:* ${info.total}₮`;
+        
+        const fd = new FormData();
+        fd.append('chat_id', chat_id); fd.append('photo', file); fd.append('caption', cap); fd.append('parse_mode', 'Markdown');
+        
+        const res = await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, { method: 'POST', body: fd });
+        if(res.ok) goStep(3);
+        Swal.close();
+    }
+
+    async function sendComment() {
+        const msg = `💬 *СЭТГЭГДЭЛ:* ${document.getElementById('comment').value || "Байхгүй"}\n📞 *Утас:* ${document.getElementById('phone').value}`;
+        await fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`);
+        Swal.fire('Баярлалаа! ✨').then(() => location.reload());
+    }
+    updateTotal();
+</script>
+</body>
+</html>
 
