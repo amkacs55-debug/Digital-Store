@@ -1,20 +1,19 @@
-// Supabase-ийн мэдээллүүд (Dashboard-аасаа хуулж авна)
-const supabaseUrl = 'https://таны-төслийн-id.supabase.co';
-const supabaseKey = 'таны-нийтэд-нээлттэй-anon-түлхүүр';
-const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+// Үйлчилгээний ID-г өөрийнхөөрөө тааруулж авна (Жишээ нь: 102)
+const serviceId = "102"; 
+const link = document.getElementById('linkInput').value; // Линк авдаг ID
+const quantity = document.getElementById('quantityInput').value; // Тоо авдаг ID
 
-console.log("Supabase холбогдоход бэлэн боллоо!");
+// МЕССЕЖИЙН ФОРМАТ - ЭНЭ МАШ ЧУХАЛ!
+const message = `ЗАХИАЛГА: ${serviceId} | ${link} | ${quantity}`;
 
-// Жишээ: Өгөгдлийн сангаас мэдээлэл унших функц
-async function fetchItems() {
-    const { data, error } = await _supabase
-        .from('барааны_хүснэгтийн_нэр')
-        .select('*');
-    
-    if (error) {
-        console.error('Алдаа гарлаа:', error);
-    } else {
-        console.log('Дата амжилттай ирлээ:', data);
-    }
-}
+// Telegram API руу илгээх хэсэг
+const telegramUrl = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
 
+fetch(telegramUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+        chat_id: ADMIN_ID, // Чиний ID: 7069407872
+        text: message
+    })
+});
