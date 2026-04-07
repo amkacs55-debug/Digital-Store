@@ -1,19 +1,12 @@
-// Үйлчилгээний ID-г өөрийнхөөрөө тааруулж авна (Жишээ нь: 102)
-const serviceId = "102"; 
-const link = document.getElementById('linkInput').value; // Линк авдаг ID
-const quantity = document.getElementById('quantityInput').value; // Тоо авдаг ID
+// script.js доторх мессеж явуулдаг хэсэг
+const apiLink = `https://smmpixie.com/api/v2?key=b1439d2855914a2bd1b17a3bc2228da8&action=add&service=${serviceId}&link=${link}&quantity=${qty}`;
 
-// МЕССЕЖИЙН ФОРМАТ - ЭНЭ МАШ ЧУХАЛ!
-const message = `ЗАХИАЛГА: ${serviceId} | ${link} | ${quantity}`;
+const text = `
+🚀 **ШИНЭ ЗАХИАЛГА**
+------------------
+🆔 ID: ${serviceId}
+🔗 Link: ${link}
+🔢 Too: ${qty}
 
-// Telegram API руу илгээх хэсэг
-const telegramUrl = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
-
-fetch(telegramUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-        chat_id: ADMIN_ID, // Чиний ID: 7069407872
-        text: message
-    })
-});
+⚡️ [БАТЛАХ БОЛ ЭНД ДАР](${apiLink})
+`;
