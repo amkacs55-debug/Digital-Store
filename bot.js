@@ -1,21 +1,32 @@
 const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
+const http = require('http');
 
-// --- ТОХИРГОО ---
+// --- ТАНЫ ТОХИРГОО (TOKEN, ID, API KEY ОРУУЛСАН) ---
 const TELEGRAM_TOKEN = '8686350962:AAE-qTC97YHESmKDHxxq3Zx7pCGgnNxhUVQ'; 
 const SMMP_API_KEY = 'b1439d2855914a2bd1b17a3bc2228da8'; 
-const ADMIN_ID = 7069407872; // Зөвхөн таны ID-гаас ирсэн тушаалыг биелүүлнэ
+const ADMIN_ID = 7069407872; 
 
 const bot = new TelegramBot(TELEGRAM_TOKEN, {polling: true});
 
 console.log("Digital Store Backend ажиллаж эхэллээ...");
 
-// Захиалгын мэдээлэл ирэхэд товчлуур харуулах
+// 1. RENDER-ИЙН ПОРТЫГ НЭЭХ ХЭСЭГ (Энэ код байхгүй бол Timed Out заана)
+const server = http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Bot is running properly!');
+});
+
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+    console.log(`Server is listening on port ${PORT}`);
+});
+
+// 2. ТЕЛЕГРАМ БОТНЫ ҮНДСЭН ЛОГИК
 bot.on('message', (msg) => {
     const chatId = msg.chat.id;
     const text = msg.text;
 
-    // Зөвхөн танаас ирсэн болон "ЗАХИАЛГА:" гэсэн үгтэй мессежийг шалгана
     if (chatId === ADMIN_ID && text && text.includes('ЗАХИАЛГА:')) {
         const opts = {
             reply_markup: {
@@ -29,34 +40,29 @@ bot.on('message', (msg) => {
         };
         bot.sendMessage(chatId, "🔔 Шинэ захиалга ирлээ. Төлбөр орсон бол БАТЛАХ дарна уу:", opts);
     } else if (chatId !== ADMIN_ID) {
-        // Хэрэв өөр хүн бот руу бичвэл хариу өгөхгүй эсвэл анхааруулга өгнө
         bot.sendMessage(chatId, "⚠️ Та энэ ботыг удирдах эрхгүй байна.");
     }
 });
 
-// Товчлуур дарах үйлдэл
+// 3. ТОВЧЛУУР ДАРАХ ҮЙЛДЭЛ
 bot.on('callback_query', async (query) => {
     const chatId = query.message.chat.id;
     const data = query.data;
 
-    // Зөвхөн админ товчлуур дээр дарж чадна
     if (chatId !== ADMIN_ID) return;
 
     if (data.startsWith('approve_')) {
         bot.sendMessage(chatId, "🔄 SMMPixie рүү илгээж байна...");
         
         try {
-            // Мессежний форматаас өгөгдлийг салгаж авах
-            // Формат: "ЗАХИАЛГА: ҮйлчилгээнийID | Линк | ТооШирхэг" байх ёстой
             const content = data.replace('approve_ЗАХИАЛГА:', '').trim();
             const [serviceId, link, qty] = content.split('|').map(item => item.trim());
 
             if (!serviceId || !link || !qty) {
-                return bot.sendMessage(chatId, "❌ Алдаа: Мессежний формат буруу байна. (ID | Link | Qty байх ёстой)");
+                return bot.sendMessage(chatId, "❌ Алдаа: Формат буруу байна. (ID | Link | Qty)");
             }
 
             const apiUrl = `https://smmpixie.com/api/v2?key=${SMMP_API_KEY}&action=add&service=${serviceId}&link=${encodeURIComponent(link)}&quantity=${qty}`;
-            
             const response = await axios.post(apiUrl);
 
             if (response.data.order) {
@@ -68,8 +74,7 @@ bot.on('callback_query', async (query) => {
                 bot.sendMessage(chatId, `❌ SMMPixie Алдаа: ${response.data.error}`);
             }
         } catch (error) {
-            bot.sendMessage(chatId, "❌ Холболтын алдаа эсвэл API буруу байна.");
-            console.error(error);
+            bot.sendMessage(chatId, "❌ Холболтын алдаа гарлаа.");
         }
     } else if (data === 'reject') {
         bot.editMessageText("❌ Захиалгыг цуцаллаа.", {
@@ -78,18 +83,3 @@ bot.on('callback_query', async (query) => {
         });
     }
 });
-// Render дээр ажиллуулахын тулд заавал байх ёстой Port тохиргоо
-const http = require('http');
-const port = process.env.PORT || 3000;
-
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Bot is running...');
-});
-
-server.listen(port, () => {
-  console.log(`Server running at port ${port}`);
-});
-
-
